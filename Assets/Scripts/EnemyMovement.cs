@@ -20,4 +20,10 @@ public class EnemyMovement : MonoBehaviour
         direction.Normalize();
         rb.linearVelocity = direction * moveSpeed;
     }
+
+    public void SetDodaPosition(Vector2 spawnPosition)
+    {
+        rb.position = spawnPosition;
+        transform.position = spawnPosition;
+    }
 }

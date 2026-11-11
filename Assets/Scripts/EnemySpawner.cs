@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -14,6 +15,33 @@ public class EnemySpawner : MonoBehaviour
     private float timerToNextSpawn = 1.5f;
 
     private float spawnMargin = 0.5f; // makes the enemy spawn just outside of the camera view
+
+    private ObjectPool<EnemyMovement> dodaPool;
+
+    private void Awake()
+    {
+        dodaPool = new ObjectPool<EnemyMovement>(CreateNewDoda, OnDodaTaken, OnDodaReturned, DestroyDoda);
+    }
+    private EnemyMovement CreateNewDoda()
+    {
+        EnemyMovement newDoda = Instantiate(enemyPrefab, enemiesFolder);
+        EnemyInsistence enemyInsistence = newDoda.GetComponent<EnemyInsistence>();
+        enemyInsistence.SetPool(dodaPool);
+        return newDoda;
+    }
+    private void OnDodaTaken(EnemyMovement doda)
+    {
+        doda.gameObject.SetActive(true);
+    }
+    private void OnDodaReturned(EnemyMovement doda)
+    {
+        doda.gameObject.SetActive(false);
+    }
+
+    private void DestroyDoda(EnemyMovement doda)
+    {
+        Destroy(doda.gameObject);
+    }
 
 
     private void Update()
@@ -47,7 +75,8 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnEnemy() 
     {
         Vector3 spawnLocation = GetSpawnLocation();
-        Instantiate(enemyPrefab, spawnLocation, Quaternion.identity, enemiesFolder);
+        EnemyMovement doda = dodaPool.Get();
+        doda.SetDodaPosition(spawnLocation);
     }
 
 

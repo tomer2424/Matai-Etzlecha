@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class ShiftExcuse : MonoBehaviour
 {
@@ -13,6 +14,34 @@ public class ShiftExcuse : MonoBehaviour
     private float fireInterval = 1f;
     private float timerToNextFire = 1f;
 
+    private ObjectPool<BulletBehaviour> shiftExcusePool;
+
+    private void Awake()
+    {
+        shiftExcusePool = new ObjectPool<BulletBehaviour>(CreateNewBullet, OnBulletTaken, OnBulletReturned, DestroyBullet);
+    }
+
+    private BulletBehaviour CreateNewBullet()
+    {
+        BulletBehaviour newBullet = Instantiate(shiftExcusePrefab, shiftExcuseFolder);
+        newBullet.SetPool(shiftExcusePool);
+        return newBullet;
+    }
+
+    private void OnBulletTaken(BulletBehaviour bullet)
+    {
+        bullet.gameObject.SetActive(true);
+    }
+
+    private void OnBulletReturned(BulletBehaviour bullet)
+    {
+        bullet.gameObject.SetActive(false);
+    }
+
+    private void DestroyBullet(BulletBehaviour bullet)
+    {
+        Destroy(bullet.gameObject);
+    }
 
     private void Update()
     {
@@ -62,13 +91,12 @@ public class ShiftExcuse : MonoBehaviour
     }
 
 
-    // Creates the excuse bullet and calls it's launce method with a direction
+    // Takes a bullet from the pool and launches it from the excuse's position toward the target doda
     private void Fire(Collider2D dodaTarget)
     {
         Vector2 direction = dodaTarget.transform.position - transform.position;
-        BulletBehaviour shiftExcuseBullet = Instantiate(shiftExcusePrefab, transform.position, Quaternion.identity, shiftExcuseFolder);
-        
-        shiftExcuseBullet.LaunchBullet(direction);
+        BulletBehaviour shiftExcuseBullet = shiftExcusePool.Get();
+        shiftExcuseBullet.LaunchBullet(direction, transform.position);
     }
 
 
