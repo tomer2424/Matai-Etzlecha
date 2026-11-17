@@ -1,4 +1,5 @@
 - [Mentor mode, no edits](mentor-mode-no-edits.md) — hints only for gameplay code, never touch project files unless asked; exception: art assets; Git at the end
 - [Prototype progress](prototype-progress.md) — prototype FINISHED (2026-11-16); step history + key design decisions
-- [Map direction](map-direction.md) — new direction 2026-11-16: 15-min win, huge 160x120 map with zones (no objectives), thrown food, pixel art 3/4; everything moved into the project's single .claude/ folder
+- [Map direction](map-direction.md) — direction 2026-11-16 (15-min win, thrown food, pixel art 3/4). Its 160x120 map plan is SUPERSEDED, see map-decision-2026-11-17
 - [Venue art pipeline](venue-art-pipeline.md) — procedural generator in .claude/art/Venue → Assets/Sprites/Venue; style, scale, how to re-export
+- [Map decision 2026-11-17](map-decision-2026-11-17.md) — FINAL: huge finite ~200x200 map, no building, hand-placed islands + one-time random scatter (after a short-lived infinite-world idea)

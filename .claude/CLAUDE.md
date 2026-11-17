@@ -1,6 +1,6 @@
 # CLAUDE.md — "מתי אצלך?" (Mati Etzlecha)
 
-Read this first in every new session. The user moved to a new computer on 2026-11-16; this file plus `.claude/docs/` carry the full context from the earlier conversations (the old machine's Claude memory is copied into `.claude/memory/` for reference).
+Read this first in every new session. The user moves between computers (2026-11-16, and again after 2026-11-17); this file plus `.claude/docs/` carry the full context from the earlier conversations (Claude memory notes from previous machines are copied into `.claude/memory/` for reference). The project travels via Git; `.claude/` is tracked.
 
 **Everything Claude-related lives in this one `.claude/` folder (the user asked for that):** this file, `docs/`, `memory/`, `art/`. Keep new Claude files (docs, art generators, previews) inside `.claude/` too, not in the project root. Exception: finished sprites the user will use in Unity go under `Assets/` only when they ask.
 
@@ -18,20 +18,25 @@ Read this first in every new session. The user moved to a new computer on 2026-1
 7. Plans change; the user reports progress and says when to switch topics. Keep `.claude/docs/Progress_Summary.md` and `.claude/docs/GDD.md` current when decisions change (only when asked to update docs).
 
 ## Where things are
-- `.claude/docs/GDD.md` — game design doc **v2** (new direction). Sections 5 (map) and 7 (art) are the current focus.
+- `.claude/docs/GDD.md` — game design doc **v2.2** (huge finite map, no building). Sections 5 (map), 7 (art) and 10 (architecture) are the current focus.
 - `.claude/docs/Progress_Summary.md` — what is built (every script, how it works), decisions, things to remember, next steps.
-- `.claude/docs/map_plan.png` — the agreed map plan (160×120 tiles). Source: `.claude/art/PixelArt/make_map_plan.py`.
+- `.claude/docs/Balance.md` — starting balance numbers (2026-11-17, not yet playtested): XP formula `10 × level`, 3 main weapons per level, passives (incl. suggested "מנה שנייה" +10% damage), enemies + HP ×(1 + 0.1 × minute), 15-min spawn timeline (max 250 alive), buffet and gift drops, tuning guide.
+- `.claude/docs/map_plan.png` — the OLD closed-map plan (160×120 tiles), superseded on 2026-11-17. Reference only. Source: `.claude/art/PixelArt/make_map_plan.py`.
 - `.claude/docs/style_sample.png` — the pixel-art style the user liked (reception + parking). Source: `.claude/art/PixelArt/make_style_sample.py`.
-- `.claude/memory/` — copies of the old machine's memory notes (background detail).
+- `.claude/memory/` — copies of earlier machines' memory notes (background detail). `map-decision-2026-11-17.md` = how the map decision was reached.
 - `Assets/Scenes/Prototype.unity`, `Assets/Scripts/` — the finished prototype.
+- `.claude/art/PixelArt/` — current pixel-art generators: `make_characters.py` → `characters/` (Player + Aunt pink/blue/purple/yellow sheets, 16×24, 4 frames: idle, walk1, walk2, hit/give-up, facing left); `make_buffet.py` → `buffet_native.png` / `buffet_x4.png` (buffet island style preview, approved); `make_style_sample.py`; `make_map_plan.py` (old).
+- `Assets/Sprites/Player_sheet.png`, `Assets/Sprites/Aunt_yellow_sheet.png` — the pixel sprites already in use (player in the scene, aunt in `Doda.prefab`).
 - `.claude/art/VectorSprites/` — older vector-style sprite generators + `Background.png` (superseded by pixel art).
 - `.claude/art/Venue/` — an older procedural vector venue map pipeline (made in a forked session; outputs in `Assets/Sprites/Venue/`). **The user does not use it** — only the art made in the main conversation matters. Kept for reference only.
 
-## Current status (2026-11-16)
+## Current status (2026-11-17)
 - **Prototype: DONE** (movement/camera, aunt chase, pooled spawner, first auto-weapon, notes + XP + 3-card upgrades, patience + contact damage + loss, 5-min clock + win, shared end screen, floating text). All tested by the user.
-- **New direction decided** (see GDD v2): 15-minute win; huge bounded map with indoor/outdoor zones and **no objectives**; new harder enemies over time; small buffet stations that appear and heal; weapons = thrown food; **pixel art, 3/4 view**, PPU 16, 16×16 tiles, Tilemap for ground/walls (+ Rule Tiles), separate Y-sorted prefabs for objects.
-- **Map plan (agreed so far):** 160×120 tiles. South: parking (100×22) + reception (48×22, player start). West building: lobby strip (64×8), MAIN HALL 64×30 (tables west half + dance floor/DJ east half, **no wall between**), back row WC (22×28) + kitchen (42×28). East outdoor: outdoor dance floor (32×28, joined to the indoor one), buffet area (30×30), lawn with chairs (46×34), chuppah area (38×32, far NE). Optional: smokers, photo corner, fountain garden (replaced kids area), bar/lounge. Doors ≥3–4 tiles, every room 2+ exits.
-- **Waiting on the user:** confirm map size and which optional zones stay. Then: first pixel-art tileset (grass, pavers, asphalt, sidewalk/curb, parking lines) + reception/parking props, and teach Tilemap. Code-wise, production starts with the refactor in GDD §10 (WeaponBase/WeaponData, PlayerStats, EnemyData, WaveDirector) before adding content.
+- **Direction** (see GDD v2.2): 15-minute win; **no objectives**; new harder enemies over time; buffet stations that heal; weapons = thrown food; **pixel art, 3/4 view**, PPU 16, 16×16 tiles, separate Y-sorted prefabs for objects.
+- **2026-11-17: HUGE FINITE MAP, NO BUILDING** ("the biggest wedding in the world"), ~200×200 units with a hedge/fence border, start entrance in the middle. Same day it went closed 160×120 map with building → infinite world with prop recycling → this hybrid (final). Layers: grass ground → decorations (no collision) → sparse obstacles (tables, pots) → **islands** (dance floor + DJ, chuppah far away, 3–4 buffet islands with healing stations, photo corner, bar, parking) → breakable **gifts** that drop pickups (cake heal, magnet, fireworks clear, money XP). **Islands placed by hand; decorations/obstacles/gifts scattered randomly ONCE at start** (overlap check), nothing moves after. Needs: `MapBounds`, spawner rejects out-of-bounds points, gifts respawn, buffet refills, far enemies (>25 units) return to pool, camera clamps at edges. Check performance (~1,500 decorations, ~400 obstacles; Tilemap for decorations if heavy). Estimate 2–3 days.
+- **Character size decided 2026-11-17: 16×24 base frame** (1×1.5 units; cousin smaller ~12×18, grandma short/wide, mom boss ~20×30; props scaled to match — see GDD §7).
+- **Done 2026-11-17 (end of day), user-tested:** player + yellow aunt pixel sheets imported (PPU 16, Point, no compression, Multiple, Grid 16×24, pivot Bottom) and used (first frame only, **no Animator yet**); colliders resized (player capsule 0.43×0.71, aunt 0.45×0.5); **Pixel Perfect Camera** on Main Camera (Assets PPU 16, Ref 480×270, Crop None, Grid Snapping None; scene file still says ortho 5.6, overridden at runtime). Starting balance table done: `.claude/docs/Balance.md`.
+- **Next (recommended order):** (1) user: editor-only debug keys F1/F2/F3; (2) user, mentor mode: refactor PlayerStats → WeaponData+WeaponBase (ShiftExcuse → meatballs) → EnemyData → WaveDirector, plus XP formula `10 × level`; (3) Claude in parallel: grass tile variants, decorations, round table + chairs at 16×24 scale, then help with Animator; (4) map system in week 2. Old PPU-256 table/chairs look small next to the new characters — expected until replaced.
 
 ## Technical facts worth knowing
 - Uses `rb.linearVelocity` (not `velocity`). New Input System (`Keyboard.current`), WASD only, no Dash.
@@ -40,5 +45,7 @@ Read this first in every new session. The user moved to a new computer on 2026-1
 - Object pooling with `UnityEngine.Pool.ObjectPool<T>`: creator holds the pool and passes it once (SetPool) in the create callback; reset in `OnEnable`; null-check in the destroy callback (Unity 6 clears pools after scene objects are destroyed).
 - UI listens to UnityEvents (`OnXPChanged(float)`, `OnLevelUp`, `onPatienceChanged(float)`, `onDeath`, `OnSecondsLeftChanged(int)`, `OnTimeUp`). Renaming a serialized field/event loses its Inspector value/wiring.
 - Layers: Player 6, Enemy 7, Pickup 8 (collides only with Player). Player Mass 100; enemies use Discrete collision for performance.
+- Camera: URP **Pixel Perfect Camera** (PPU 16, reference 480×270 → ortho size 8.4375 computed by the component; don't set it by hand). Game view 1920×1080 = ×4.
+- Sprite import for pixel art: PPU 16, Filter Point, Compression None, pivot at the feet (Bottom).
 - Floating text is English for now (TMP default font has no Hebrew; needs a Hebrew font + RTL, e.g. RTLTMPro).
 - Python art scripts need `pip install pillow`; run as `python <script>.py <output_dir>`.
