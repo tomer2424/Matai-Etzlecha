@@ -10,6 +10,12 @@ public class EnemyInsistence : MonoBehaviour
 
     private ObjectPool<EnemyMovement> pool;
     private EnemyMovement enemyMovement;
+    private NotesSpawner noteSpawner;
+
+    [SerializeField] private string[] hitLines;
+    [SerializeField] private string[] giveUpLines;
+    [SerializeField, Range(0f, 1f)] private float hitLineChance = 0.15f;
+    private FloatingTextManager floatingTextManager;
 
     private void Awake()
     {
@@ -19,6 +25,16 @@ public class EnemyInsistence : MonoBehaviour
     public void SetPool(ObjectPool<EnemyMovement> pool)
     {
         this.pool = pool;
+    }
+
+    public void SetFloatingTextManager(FloatingTextManager floatingTextManager)
+    {
+        this.floatingTextManager = floatingTextManager;
+    }
+
+    public void SetNoteSpawner(NotesSpawner noteSpawner)
+    {
+        this.noteSpawner = noteSpawner;
     }
 
     // called from an outside bullet gameobject to reduce the insistence
@@ -31,11 +47,20 @@ public class EnemyInsistence : MonoBehaviour
             {
                 GiveUp();
             }
+            else
+            {
+                if (Random.value < hitLineChance)
+                {
+                    floatingTextManager.ShowRandomText(hitLines, transform.position);
+                }
+            }
         }
     }
 
     private void GiveUp()
     {
+        floatingTextManager.ShowRandomText(giveUpLines, transform.position);
+        noteSpawner.SpawnNote(transform.position);
         isDead = true;
         pool.Release(enemyMovement);
     }

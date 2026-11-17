@@ -10,7 +10,7 @@ public class BulletBehaviour : MonoBehaviour
     private float timeAlive = 0f;
     [SerializeField] private float maxAliveTime = 5f;
 
-    [SerializeField] private float bulletDamage = 5f;
+    private float bulletDamage;
     private bool hasHit = false;
 
     private ObjectPool<BulletBehaviour> pool;
@@ -35,9 +35,10 @@ public class BulletBehaviour : MonoBehaviour
         this.pool = pool;
     }
 
-    // Called from an outside script to set the direction and spawn position of the bullet and fire it
-    public void LaunchBullet(Vector2 bulletDirection, Vector2 bulletPosition)
+    // Called from an outside script to set the direction, spawn position and damage of the bullet and fire it
+    public void LaunchBullet(Vector2 bulletDirection, Vector2 bulletPosition, float damage)
     {
+        bulletDamage = damage;
         bulletDirection.Normalize();
         rb.position =  bulletPosition;
         transform.position = bulletPosition;

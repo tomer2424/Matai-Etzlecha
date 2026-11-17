@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 2337424018620587837}
   - component: {fileID: 1088952574344174150}
   - component: {fileID: 8901252592514266382}
-  - component: {fileID: 6383658950701757630}
+  - component: {fileID: 5547184057769372777}
   - component: {fileID: 7256272260187141826}
   - component: {fileID: -8845976977013345810}
+  - component: {fileID: -6323873083725105428}
   m_Layer: 7
   m_Name: Doda
   m_TagString: Untagged
@@ -31,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.38, y: 0.05, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -85,8 +86,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.9811321, g: 0, b: 0.56404597, a: 1}
+  m_Sprite: {fileID: -6325975048325279320, guid: c19670e1ded215340ae8f1275778333a, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -94,7 +95,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!50 &8901252592514266382
 Rigidbody2D:
   serializedVersion: 5
@@ -122,8 +123,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!60 &6383658950701757630
-PolygonCollider2D:
+--- !u!70 &5547184057769372777
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -156,30 +157,9 @@ PolygonCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -0.5, y: 0}
-      - {x: -0.47265625, y: -0.15234375}
-      - {x: -0.40234375, y: -0.29296875}
-      - {x: -0.29296875, y: -0.40234375}
-      - {x: -0.15234375, y: -0.47265625}
-      - {x: 0, y: -0.5}
-      - {x: 0.15234375, y: -0.47265625}
-      - {x: 0.29296875, y: -0.40234375}
-      - {x: 0.40234375, y: -0.29296875}
-      - {x: 0.47265625, y: -0.15234375}
-      - {x: 0.5, y: 0}
-  m_UseDelaunayMesh: 1
+  m_Offset: {x: 0.021831393, y: 0.24999225}
+  m_Size: {x: 0.45341134, y: 0.4999845}
+  m_Direction: 0
 --- !u!114 &7256272260187141826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,3 +185,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7481e43c132ab9b4ab8f6655afc1c2db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyInsistence
+  maxInsistence: 10
+  hitLines:
+  - bla bla bla bla
+  - ouch
+  - stop it !
+  giveUpLines:
+  - ok bye
+  - im dead
+  - im going to sleep new
+  hitLineChance: 0.3
+--- !u!114 &-6323873083725105428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1293711830554654682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5c8215d41e87fb42a2fdaabd8f64542, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDamage
+  damage: 5

@@ -7,7 +7,9 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sr;
 
+
     [SerializeField] private float moveSpeed = 4.0f;
+    [SerializeField] private float moveSpeedIncrease = 0.4f;
     private Vector2 movementVector;
     private bool facingRight = false;
 
@@ -26,6 +28,11 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         rb.linearVelocity = movementVector * moveSpeed;
+    }
+
+    public void IncreaseMovementSpeed()
+    {
+        moveSpeed += moveSpeedIncrease;
     }
 
     private void HandleMovement() // Handles the movement vector

@@ -10,15 +10,36 @@ public class ShiftExcuse : MonoBehaviour
     [Header("Shooting parameters")]
     [SerializeField] private LayerMask whatIsEnemy;
     [SerializeField] private float range = 5f;
-
-    private float fireInterval = 1f;
     private float timerToNextFire = 1f;
+    [SerializeField] private float fireInterval = 1f;
+    [SerializeField] private float minFireInterval = 0.4f;
+    [SerializeField] private float damage = 5f;
+
+    [Header("Upgrades")]
+    [SerializeField] private float damageIncrease = 2f;
+    [SerializeField] private float rangeIncrease = 1f;
+    [SerializeField] private float fireIntervalMultiplier = 0.85f;
 
     private ObjectPool<BulletBehaviour> shiftExcusePool;
 
     private void Awake()
     {
         shiftExcusePool = new ObjectPool<BulletBehaviour>(CreateNewBullet, OnBulletTaken, OnBulletReturned, DestroyBullet);
+    }
+
+    public void IncreaseDamage()
+    {
+        damage += damageIncrease;
+    }
+
+    public void IncreaseRange()
+    {
+        range += rangeIncrease;
+    }
+
+    public void DecreaseFireInterval()
+    {
+        fireInterval = Mathf.Max(minFireInterval, fireInterval * fireIntervalMultiplier);
     }
 
     private BulletBehaviour CreateNewBullet()
@@ -40,7 +61,10 @@ public class ShiftExcuse : MonoBehaviour
 
     private void DestroyBullet(BulletBehaviour bullet)
     {
-        Destroy(bullet.gameObject);
+        if (bullet != null)
+        {
+            Destroy(bullet.gameObject);
+        }
     }
 
     private void Update()
@@ -96,7 +120,7 @@ public class ShiftExcuse : MonoBehaviour
     {
         Vector2 direction = dodaTarget.transform.position - transform.position;
         BulletBehaviour shiftExcuseBullet = shiftExcusePool.Get();
-        shiftExcuseBullet.LaunchBullet(direction, transform.position);
+        shiftExcuseBullet.LaunchBullet(direction, transform.position, damage);
     }
 
 

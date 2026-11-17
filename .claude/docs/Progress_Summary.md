@@ -1,0 +1,112 @@
+# מתי אצלך? – סיכום התקדמות
+*עודכן: 16.11.2026 · אב הטיפוס הושלם, הוחלט על כיוון חדש, עובדים על תכנון המפה והגרפיקה*
+
+> **לשיחה חדשה עם Claude:** `.claude/CLAUDE.md` נטען אוטומטית. הוא מפנה לקובץ הזה ול-`.claude/docs/GDD.md`.
+
+---
+
+## כללי עבודה עם Claude (חובה!)
+1. **Git נעשה בסוף** (או כשאני מבקש).
+2. **Claude לא משנה ולא כותב שום דבר בתיקיית הפרויקט** אלא אם ביקשתי במפורש.
+   - **חריג: גרפיקה.** בגרפיקה Claude עובד כ"מעצב ספרייטים מקצועי" ומכין את הקבצים בעצמו. אני ממקם אותם בסצנה.
+3. **מצב מנטור (לקוד של המשחק):** כשאני מבקש עזרה, רק הכוונה, רמזים ושאלות, לא פתרון ישיר. חריג: כשאני כותב "תגיד לי" / "תגיד לי מה הפתרון" / "תכתוב לי", מקבלים תשובה ישירה.
+4. **"תבדוק אותי" / "תסתכל":** Claude קורא את הקבצים (סקריפטים, סצנה, פריפאבים) ומעיר. זה מותר תמיד.
+5. דברים יכולים להשתנות. אני מעדכן מה עשיתי ומתי עוברים נושא.
+- שיחה בעברית, הערות בקוד באנגלית. כשמבקשים הערות, רק על מה שביקשתי.
+- כשאני מבקש "תרשום לנו" משהו לעתיד, לשמור אותו ולהזכיר אותו בזמן המתאים.
+
+---
+
+## הפרויקט
+- **Unity 6000.3.26f1, 2D URP.** פרויקט סיום בקורס, עבודה לבד. **הגשה: בערך אמצע דצמבר 2026.**
+- Survivors-like: רווק בחתונה בורח מדודות, זורק עליהן אוכל, פתקי טלפון נותנים XP.
+- מסמך העיצוב: `.claude/docs/GDD.md` (גרסה 2, עם הכיוון החדש).
+- סצנה: `Assets/Scenes/Prototype.unity`. סקריפטים: `Assets/Scripts/`.
+
+---
+
+## ✅ אב הטיפוס: מה בנוי (הכל עובד ונבדק)
+
+### תנועה ומצלמה
+- **`PlayerMovement`:** WASD דרך Input System (בלי חצים, **בלי Dash**). קלט ב-`Update`, `rb.linearVelocity` ב-`FixedUpdate`. מהירות 4. `IncreaseMovementSpeed()` (+0.4).
+- **מוסכמת כיוון:** כל הספרייטים מצוירים **פונים שמאלה**. `facingRight` מתחיל ב-`false`, ההיפוך רק דרך `sr.flipX`.
+- **`SmoothCameraFollow`:** `SmoothDamp` ב-`LateUpdate`. לשחקן Rigidbody עם Interpolate.
+
+### אויבים ו-Spawner
+- **`EnemyMovement`:** הולכת ישר לשחקן (Tag "Player"), מהירות 2.5, בלי מרחק עצירה. `SetDodaPosition(pos)` קובע `rb.position` ו-`transform.position`.
+- **`EnemyInsistence`:** התעקשות 10 (`maxInsistence`), `ReduceInsistence`, `GiveUp()` (פתק, משפט ויתור, `isDead`, `Release`). `OnEnable` מאפס.
+  - משפטים: `hitLines`, `giveUpLines`, `hitLineChance` (Range 0–1, בפריפאב 0.30). משפט פגיעה רק אם הדודה **שרדה** (`else`). משפט ויתור **תמיד**.
+- **`EnemyDamage`:** `damage` (5) + `Damage =>`. אויב בלי הרכיב לא פוגע במגע.
+- **`EnemySpawner`:** `ObjectPool<EnemyMovement>`. `CreateNewDoda` מעביר לדודה את ה-Pool, את `NotesSpawner` ואת `FloatingTextManager`. יצירה על מעגל סביב המצלמה, מחוץ למסך. קצב לפי `AnimationCurve` מ-(0, 2) עד (300, 0.5), עם `globalTimer` עצמאי.
+- **השחקן:** Mass 100. Colliders ב"רגליים". הדודות: Collision Detection **Discrete** (בגלל ביצועים).
+- **Layers:** Player (6), Enemy (7), Pickup (8, מתנגש רק עם Player).
+
+### הנשק הראשון ("יש לי משמרת", יוחלף בקציצות)
+- **`ShiftExcuse`** (child של השחקן): ירייה כל `fireInterval` לדודה הקרובה (`OverlapCircleAll` + LayerMask). "ירייה טעונה": אם אין יעד, הטיימר מחכה. `ObjectPool<BulletBehaviour>`. הנזק כאן ונשלח ב-`LaunchBullet(dir, pos, damage)`.
+  - שדרוגים: `IncreaseDamage` (+2), `IncreaseRange` (+1), `DecreaseFireInterval` (×0.85, מינימום 0.4).
+- **`BulletBehaviour`:** Kinematic + Trigger, `hasHit`, חוזר ל-Pool בפגיעה או אחרי `maxAliveTime`.
+
+### פתקים, XP וקלפים
+- **`NotesSpawner` + `NoteBehaviour`:** Pool של פתקים. איסוף ב-`OnTriggerEnter2D` עם `TryGetComponent(out LevelSystem)`, `wasCollected`, xp = 1.
+- **`LevelSystem`** (על השחקן): `AddXP` עם `while` (מחסירים ואז `LevelUp`), `GetXPToLevelUp()` = `5 + level*4`. אירועים: `OnXPChanged(float)` (יחס 0–1), `OnLevelUp`.
+- **`CardSelectScreen`** (על ה-Canvas) + **`UpgradeOption`** (`[System.Serializable]`: שם, תיאור, `UnityEvent`, `Apply()`):
+  - `pendingChoices` (private int) לכמה עליות ברמה בבת אחת.
+  - `HandleCards()` = `RollCards()` (עותק רדוד של הרשימה, הגרלה בלי חזרות) + `ShowCardsText()` (מערך `TextMeshProUGUI`).
+  - `OnCardButtonPress(int)`: מיישם את השדרוג שהוגרל, ואז סוגר או מגריל שוב.
+  - בעצירה: `timeScale = 0` ו-`PlayerMovement.enabled = false`.
+
+### סבלנות, שעון, סיום
+- **`PlayerPatience`:** 100, חסינות 0.5 שנ' אחרי מכה (`immunityLeftTimer`), `isDead`, `ReducePatience(float)` ציבורית, `OnCollisionStay2D` עם `EnemyDamage`. אירועים: `onPatienceChanged(float)`, `onDeath`.
+- **`ProgressBar`:** מד כללי (`FillBar(float)`), משמש למד ה-XP ולמד הסבלנות.
+- **`GameTimer`:** שעון יורד, `gameDuration` (300 כרגע, יהיה 900), שולח `OnSecondsLeftChanged(int)` רק כשהשנייה משתנה, `OnTimeUp` פעם אחת. **`TimerText`:** פורמט m:ss.
+- **`EndScreen`:** `ShowEndScreen(string message)` עם הגנה מסיום כפול. `onDeath` → "You Died !", `OnTimeUp` → "You Win !". `OnTryAgainPress` מחזיר `timeScale` ל-1 וטוען את הסצנה מחדש.
+
+### טקסט צף
+- **`FloatingTextManager`** (על אובייקט משלו): Pool, `textSpawnOffset` 0.8, `ShowText(text, pos)` ו-`ShowRandomText(string[] lines, pos)` (עם הגנה מרשימה ריקה).
+- **`FloatingText`** (פריפאב עם TextMeshPro **של העולם**, Order in Layer 10): עולה ונעלם (`alpha = timeLeft / maxTimeAlive`), `SetFloatingText`, חוזר ל-Pool.
+- **הטקסטים באנגלית** כרגע (אין פונט עברי + RTL).
+
+### מיון לפי Y (הוגדר בסוף, עם הספרייטים החדשים)
+- `Renderer2D.asset`: Transparency Sort Mode = Custom Axis (0, 1, 0).
+- Sprite Sort Point = **Pivot** בשחקן, בדודה, בשולחן ובכיסאות. Pivot ברגליים.
+- **השולחן:** Pivot מותאם (0.5, 0.44), מרכז הבסיס של המפה. CapsuleCollider2D אופקי. 8 כיסאות כילדים (בלי Colliders).
+
+---
+
+## 🆕 הכיוון החדש (16.11.2026)
+**אחרי אב הטיפוס:** המפה הרגישה קטנה, ולשרוד זמן מסוים לא הרגיש מספיק כיף. הוחלט:
+- **ניצחון אחרי 15 דקות** (אפשר לשנות).
+- **מפה ענקית** (160×120 אריחים), עם **אזורים** בפנים ובחוץ. **בלי מטרות במפה.** בלי משחקיות מיוחדת לכל אזור (כרגע).
+- **אויבים חדשים וקשים יותר** מגיעים לאורך הזמן (הרשימה מה-GDD, התזמון ייקבע).
+- **עמדות בופה קטנות שמופיעות במפה** ומרפאות.
+- **זורקים אוכל ודברים של חתונה** במקום "תירוצים".
+- **פיקסל ארט במבט 3/4**, Tilemap לרצפה ולקירות, ספרייטים נפרדים לחפצים.
+- **תוכנית המפה:** `.claude/docs/map_plan.png`. **דוגמת הסגנון:** `.claude/docs/style_sample.png`. פירוט ב-`.claude/docs/GDD.md` סעיפים 5 ו-7.
+
+---
+
+## 🎨 גרפיקה: מה קיים
+**כל מה שבפרויקט עכשיו הוא בסגנון וקטורי, מלפני ההחלטה על פיקסל ארט, ויוחלף.**
+- `Assets/Sprites/`: `player.png`, `Doda.png`, `RoundTable.png`, `Chair_Front/Back/Side.png` (PPU 256, Pivot ברגליים).
+- `Assets/Sprites/Venue/`: רקע של גן אירועים בחלקים + עצים ושיחים (נוצר בשיחה אחרת, מקור ב-`.claude/art/Venue/`. **לא בשימוש**).
+- `.claude/art/VectorSprites/`: הסקריפטים שיצרו את הספרייטים הווקטוריים, ו-`Background.png` (4096×2730, רקע של אולם + גן).
+- `.claude/art/PixelArt/`: `make_style_sample.py` (דוגמת הסגנון) ו-`make_map_plan.py` (תוכנית המפה).
+- הסקריפטים בפייתון צריכים `pip install pillow`. מריצים: `python make_xxx.py <תיקיית פלט>`.
+
+---
+
+## 📝 דברים שביקשתי לזכור לעתיד
+- **מסך Pause:** לרכז את העצירה במקום אחד (`Pause()`/`Resume()` + אירועים), במקום שכל מסך יכבה את `PlayerMovement` בעצמו. היום גם `CardSelectScreen` וגם `EndScreen` עושים את זה (כי `Update` ממשיך לקרוא קלט ב-`timeScale = 0`).
+- **`ShiftExcuse`:** כשאין דודה בטווח, `OverlapCircleAll` רצה בכל פריים ויוצרת מערך חדש. נמדד ב-Profiler: 32 B לפריים, 0.4% מהפריים. נשאר למעבר ביצועים בסוף. עם כמה נשקים זה יחשוב יותר: לעבור ל-`OverlapCircle` עם `ContactFilter2D` ו-`List<Collider2D>`, או לחפש בתדירות נמוכה יותר.
+- **ליטוש פתקים (לא נעשה):** מגנט (נמשכים לשחקן) ונעלמים אחרי 30 שניות.
+- **ה-Spawner:** `globalTimer` משלו. בהפקה ה-`WaveDirector` צריך לקרוא את הזמן מ-`GameTimer`, כדי שיהיה מקור אחד לזמן.
+- **הקושי אחרי סוף העקומה:** העקומה נגמרת ב-300 שניות. ל-15 דקות צריך שהקושי ימשיך לעלות.
+- **עברית:** פונט עברי ל-TextMeshPro + RTL (למשל RTLTMPro).
+
+---
+
+## ⬜ מה הלאה
+1. **לסגור את תוכנית המפה:** גודל 160×120? אילו אזורי רשות נשארים? (בהמתנה לתשובה שלי)
+2. **Tileset ראשון בפיקסל ארט** (דשא, ריצוף, אספלט, מדרכה, קווי חנייה) + חפצים של קבלת הפנים והחניה. ללמוד Tilemap (Tile Palette, Rule Tile, Tilemap Collider).
+3. **שינויי המבנה לפני תוכן:** `WeaponBase`/`WeaponData`, `PlayerStats`, `EnemyData`, `WaveDirector` (GDD סעיף 10).
+4. לפי תוכנית ההפקה (GDD סעיף 13).

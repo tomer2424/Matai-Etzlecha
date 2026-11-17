@@ -1,0 +1,4 @@
+- [Mentor mode, no edits](mentor-mode-no-edits.md) — hints only for gameplay code, never touch project files unless asked; exception: art assets; Git at the end
+- [Prototype progress](prototype-progress.md) — prototype FINISHED (2026-11-16); step history + key design decisions
+- [Map direction](map-direction.md) — new direction 2026-11-16: 15-min win, huge 160x120 map with zones (no objectives), thrown food, pixel art 3/4; everything moved into the project's single .claude/ folder
+- [Venue art pipeline](venue-art-pipeline.md) — procedural generator in .claude/art/Venue → Assets/Sprites/Venue; style, scale, how to re-export

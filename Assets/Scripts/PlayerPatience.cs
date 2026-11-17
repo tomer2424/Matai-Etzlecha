@@ -1,0 +1,71 @@
+using UnityEngine;
+using UnityEngine.Events;
+
+public class PlayerPatience : MonoBehaviour
+{
+    private float patience;
+    [SerializeField] private float maxPatience = 100f;
+    [SerializeField] private float immunityTime = 0.5f;
+    private float immunityLeftTimer;
+    private bool isDead;
+
+    public UnityEvent<float> onPatienceChanged;
+    public UnityEvent onDeath;
+
+    private void Update()
+    {
+        HandleImmunityTimer();
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.TryGetComponent(out EnemyDamage enemyDamage))
+        {
+            ReducePatience(enemyDamage.Damage);
+        }
+    }
+
+    private void HandleImmunityTimer()
+    {
+        if (immunityLeftTimer > 0)
+        {
+            immunityLeftTimer -= Time.deltaTime;
+            if (immunityLeftTimer <= 0)
+            {
+                immunityLeftTimer = 0;
+            }
+        }
+    }
+
+    private void StartImmunity()
+    {
+        immunityLeftTimer = immunityTime;
+    }
+
+    public void ReducePatience(float patienceToRemove)
+    {
+        if (!isDead && immunityLeftTimer <= 0)
+        {
+            StartImmunity();
+            patience -= patienceToRemove;
+            onPatienceChanged.Invoke(patience / maxPatience);
+            Debug.Log("Patience left: " + patience);
+            if (patience <= 0)
+            {
+                Die();
+            }
+        }
+    }
+    private void Die()
+    {
+        isDead = true;
+        onDeath.Invoke();
+    }
+
+    private void OnEnable()
+    {
+        isDead = false;
+        patience = maxPatience;
+        immunityLeftTimer = 0;
+    }
+}

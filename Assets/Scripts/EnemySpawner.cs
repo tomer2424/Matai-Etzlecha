@@ -7,6 +7,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private EnemyMovement enemyPrefab;
     [SerializeField] private Camera mainCam;
     [SerializeField] private Transform enemiesFolder;
+    [SerializeField] private NotesSpawner notesSpawner;
+    [SerializeField] private FloatingTextManager floatingTextManager;
 
     [SerializeField] private AnimationCurve spawnAnimationCurve;
     private float spawnInterval;
@@ -27,6 +29,8 @@ public class EnemySpawner : MonoBehaviour
         EnemyMovement newDoda = Instantiate(enemyPrefab, enemiesFolder);
         EnemyInsistence enemyInsistence = newDoda.GetComponent<EnemyInsistence>();
         enemyInsistence.SetPool(dodaPool);
+        enemyInsistence.SetNoteSpawner(notesSpawner);
+        enemyInsistence.SetFloatingTextManager(floatingTextManager);
         return newDoda;
     }
     private void OnDodaTaken(EnemyMovement doda)
@@ -37,10 +41,12 @@ public class EnemySpawner : MonoBehaviour
     {
         doda.gameObject.SetActive(false);
     }
-
     private void DestroyDoda(EnemyMovement doda)
     {
-        Destroy(doda.gameObject);
+        if (doda != null)
+        {
+            Destroy(doda.gameObject);
+        }
     }
 
 

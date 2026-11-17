@@ -1,0 +1,39 @@
+using UnityEngine;
+using UnityEngine.Events;
+
+public class LevelSystem : MonoBehaviour
+{
+    private int currentLevel = 1;
+    private int currentXP = 0;
+
+    public UnityEvent<float> OnXPChanged;
+    public UnityEvent OnLevelUp;
+
+
+    public void AddXP(int xpAmount)
+    {
+        currentXP += xpAmount;
+        Debug.Log("xp: " + currentXP);
+
+        while (currentXP >= GetXPToLevelUp())
+        {
+            currentXP -= GetXPToLevelUp();
+            LevelUp();
+        }
+
+        OnXPChanged.Invoke((float)currentXP / GetXPToLevelUp());
+    }
+
+    private void LevelUp()
+    {
+        currentLevel++;
+        Debug.Log("Level UP");
+        Debug.Log("Level " +  currentLevel);
+        OnLevelUp.Invoke();
+    }
+
+     private int GetXPToLevelUp()
+    {
+        return (5 + currentLevel * 4);
+    }    
+}
