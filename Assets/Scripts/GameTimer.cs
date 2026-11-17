@@ -9,6 +9,7 @@ public class GameTimer : MonoBehaviour
     private float timeLeft;
     private int lastSecondSent = -1; // -1 so the first second is always sent
     private bool hasEnded = false;
+    private float timePassed;
 
     public UnityEvent<int> OnSecondsLeftChanged;
     public UnityEvent OnTimeUp;
@@ -37,10 +38,22 @@ public class GameTimer : MonoBehaviour
             OnSecondsLeftChanged.Invoke(secondsLeft);
         }
 
+        timePassed = gameDuration - timeLeft;
+
         if (timeLeft <= 0)
         {
             hasEnded = true;
             OnTimeUp.Invoke();
         }
+    }
+
+    public void DebugSkipTime(float secondsToSkip)
+    {
+        timeLeft -= secondsToSkip;
+    }
+
+    public float GetTimePassed()
+    {
+        return timePassed;
     }
 }

@@ -13,7 +13,6 @@ public class LevelSystem : MonoBehaviour
     public void AddXP(int xpAmount)
     {
         currentXP += xpAmount;
-        Debug.Log("xp: " + currentXP);
 
         while (currentXP >= GetXPToLevelUp())
         {
@@ -32,8 +31,13 @@ public class LevelSystem : MonoBehaviour
         OnLevelUp.Invoke();
     }
 
-     private int GetXPToLevelUp()
+    private int GetXPToLevelUp()
     {
         return (5 + currentLevel * 4);
-    }    
+    }
+
+    public void DebugSkipLevel()
+    {
+        AddXP(GetXPToLevelUp() - currentXP);
+    }
 }

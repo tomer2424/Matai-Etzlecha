@@ -8,6 +8,7 @@ public class PlayerPatience : MonoBehaviour
     [SerializeField] private float immunityTime = 0.5f;
     private float immunityLeftTimer;
     private bool isDead;
+    private bool debugIsInvincible = false;
 
     public UnityEvent<float> onPatienceChanged;
     public UnityEvent onDeath;
@@ -44,7 +45,7 @@ public class PlayerPatience : MonoBehaviour
 
     public void ReducePatience(float patienceToRemove)
     {
-        if (!isDead && immunityLeftTimer <= 0)
+        if (!debugIsInvincible && !isDead && immunityLeftTimer <= 0)
         {
             StartImmunity();
             patience -= patienceToRemove;
@@ -67,5 +68,11 @@ public class PlayerPatience : MonoBehaviour
         isDead = false;
         patience = maxPatience;
         immunityLeftTimer = 0;
+    }
+
+    public void DebugToggleInvincible()
+    {
+        debugIsInvincible = !debugIsInvincible;
+        Debug.Log("Player invincible: " + debugIsInvincible);
     }
 }

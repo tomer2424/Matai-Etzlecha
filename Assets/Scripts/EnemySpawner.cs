@@ -9,11 +9,11 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private Transform enemiesFolder;
     [SerializeField] private NotesSpawner notesSpawner;
     [SerializeField] private FloatingTextManager floatingTextManager;
+    [SerializeField] private GameTimer gameTimer;
 
     [SerializeField] private AnimationCurve spawnAnimationCurve;
     private float spawnInterval;
     private float spawnIntervalMinimum = 0.5f;
-    private float globalTimer = 0;
     private float timerToNextSpawn = 1.5f;
 
     private float spawnMargin = 0.5f; // makes the enemy spawn just outside of the camera view
@@ -73,8 +73,8 @@ public class EnemySpawner : MonoBehaviour
     // method for gradually decreasing the spawn Interval
     private void HandleSpawnRate() 
     {
-        globalTimer += Time.deltaTime;
-        spawnInterval = Mathf.Max(spawnAnimationCurve.Evaluate(globalTimer), spawnIntervalMinimum);
+        float timePassed = gameTimer.GetTimePassed();
+        spawnInterval = Mathf.Max(spawnAnimationCurve.Evaluate(timePassed), spawnIntervalMinimum);
     }
 
 
