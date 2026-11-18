@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -43,44 +45,67 @@ public class ShiftExcuse : WeaponBase
         }
     }
 
+    // Fires projectileCount meatballs at the closest dodas.
+    // Returns false (attack stays "loaded") if no doda is in range.
     protected override bool TryAttack()
     {
-        Collider2D doda =  GetClosestDoda();
-        if (doda != null)
-        {
-            Fire(doda);
-            return true;
-        }
-        else
+        List<Collider2D> dodaList = GetClosestDodas();
+
+        // Nobody in range, don't reset the timer
+        if (dodaList.Count == 0)
         {
             return false;
         }
-    }
-    
 
-
-    // Returns the closest doda within range, or null if there is none.
-    private Collider2D GetClosestDoda()
-    {
-        // decides who is in range (only colliders on the Enemy layer)
-        Collider2D[] dodaList = Physics2D.OverlapCircleAll(transform.position, range, whatIsEnemy);
-
-        // Start with "infinitely far" so the first doda always becomes the closest
-        float closestDistanceSquared = Mathf.Infinity;
-        Collider2D closestDoda = null;
-
-        // Pick the doda with the smallest distance (squared, to avoid a square root)
-        foreach (Collider2D doda in dodaList)
+        // Each projectile takes the next doda, and starts over when the list ends
+        // (3 projectiles, 2 dodas -> A, B, A)
+        for (int i = 0; i < projectileCount; i++)
         {
-            float tempDistanceSquared = (doda.transform.position - transform.position).sqrMagnitude;
-            if (tempDistanceSquared < closestDistanceSquared)
+            Fire(dodaList[i % dodaList.Count]);
+        }
+        return true;
+    }
+
+
+
+    // Returns up to projectileCount different dodas within range, closest first.
+    // The list is empty if no doda is in range.
+    private List<Collider2D> GetClosestDodas()
+    {
+        List<Collider2D> dodaList = new List<Collider2D>();
+
+        // Everyone in range (only colliders on the Enemy layer), in no particular order
+        Collider2D[] dodasFound = Physics2D.OverlapCircleAll(transform.position, range, whatIsEnemy);
+
+        // One round per projectile: each round picks the closest doda that wasn't picked yet
+        for (int i = 0; i < projectileCount; i++)
+        {
+            // Reset every round, so each round searches from scratch
+            float closestDistanceSquared = Mathf.Infinity;
+            Collider2D closestDoda = null;
+
+            // Squared distance, to avoid a square root
+            foreach (Collider2D doda in dodasFound)
             {
-                closestDoda = doda;
-                closestDistanceSquared = tempDistanceSquared;
+                float tempDistanceSquared = (doda.transform.position - transform.position).sqrMagnitude;
+                if (tempDistanceSquared < closestDistanceSquared && !dodaList.Contains(doda))
+                {
+                    closestDoda = doda;
+                    closestDistanceSquared = tempDistanceSquared;
+                }
+            }
+
+            if (closestDoda != null)
+            {
+                dodaList.Add(closestDoda);
+            }
+            else
+            {
+                // Every doda in range is already picked, no need for more rounds
+                break;
             }
         }
-        // Stays null if the list was empty
-        return closestDoda;
+        return dodaList;
     }
 
 
@@ -103,13 +128,13 @@ public class ShiftExcuse : WeaponBase
         switch(newLevel)
         {
             case 2:
-                Debug.Log("TODO: +1 projectile");
+                projectileCount++;
                 break;
             case 3:
                 damage += 5;
                 break;
             case 4:
-                Debug.Log("TODO: +1 projectile");
+                projectileCount++;
                 break;
             case 5:
                 damage += 5;

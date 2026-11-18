@@ -5,10 +5,14 @@ public abstract class WeaponBase : MonoBehaviour
     protected PlayerStats playerStats;
 
     [SerializeField] protected LayerMask whatIsEnemy;
+
     protected float timerToNextFire = 1f;
     [SerializeField] protected float fireInterval = 1f;
     [SerializeField] protected float minFireInterval = 0.4f;
+
     [SerializeField] protected float damage = 5f;
+
+    [SerializeField] protected int projectileCount = 1;
 
     protected int currentLevel = 1;
     protected int maxLevel = 5;
