@@ -1,20 +1,14 @@
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class ShiftExcuse : MonoBehaviour
+public class ShiftExcuse : WeaponBase
 {
     [Header("Components")]
     [SerializeField] private BulletBehaviour shiftExcusePrefab;
     [SerializeField] private Transform shiftExcuseFolder;
-    private PlayerStats playerStats;
 
     [Header("Shooting parameters")]
-    [SerializeField] private LayerMask whatIsEnemy;
     [SerializeField] private float range = 5f;
-    private float timerToNextFire = 1f;
-    [SerializeField] private float fireInterval = 1f;
-    [SerializeField] private float minFireInterval = 0.4f;
-    [SerializeField] private float damage = 5f;
 
     [Header("Upgrades")]
     [SerializeField] private float damageIncrease = 2f;
@@ -23,9 +17,9 @@ public class ShiftExcuse : MonoBehaviour
 
     private ObjectPool<BulletBehaviour> shiftExcusePool;
 
-    private void Awake()
+    protected override void Awake()
     {
-        playerStats = GetComponentInParent<PlayerStats>();
+        base.Awake();
         shiftExcusePool = new ObjectPool<BulletBehaviour>(CreateNewBullet, OnBulletTaken, OnBulletReturned, DestroyBullet);
     }
 
@@ -69,28 +63,20 @@ public class ShiftExcuse : MonoBehaviour
         }
     }
 
-    private void Update()
+    protected override bool TryAttack()
     {
-        HandleFiring();
-    }
-
-
-    // Counts down to the next shot and fires at the closest doda.
-    // If no doda is in range, the shot stays "loaded" and fires as soon as one enters.
-    private void HandleFiring()
-    {
-        timerToNextFire -= Time.deltaTime;
-        if (timerToNextFire <= 0)
+        Collider2D doda =  GetClosestDoda();
+        if (doda != null)
         {
-            Collider2D doda = GetClosestDoda();
-            if (doda != null)
-            {
-                // Weapon interval x player's global multiplier, but never below this weapon's minimum
-                timerToNextFire = Mathf.Max(minFireInterval, fireInterval * playerStats.GetFireIntervalMultiplier());
-                Fire(doda);
-            }
+            Fire(doda);
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
+    
 
 
     // Returns the closest doda within range, or null if there is none.
