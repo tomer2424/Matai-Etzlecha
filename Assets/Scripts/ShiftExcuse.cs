@@ -8,12 +8,7 @@ public class ShiftExcuse : WeaponBase
     [SerializeField] private Transform shiftExcuseFolder;
 
     [Header("Shooting parameters")]
-    [SerializeField] private float range = 5f;
-
-    [Header("Upgrades")]
-    [SerializeField] private float damageIncrease = 2f;
-    [SerializeField] private float rangeIncrease = 1f;
-    [SerializeField] private float fireIntervalMultiplier = 0.85f;
+    [SerializeField] private float range = 6f;
 
     private ObjectPool<BulletBehaviour> shiftExcusePool;
 
@@ -21,21 +16,6 @@ public class ShiftExcuse : WeaponBase
     {
         base.Awake();
         shiftExcusePool = new ObjectPool<BulletBehaviour>(CreateNewBullet, OnBulletTaken, OnBulletReturned, DestroyBullet);
-    }
-
-    public void IncreaseDamage()
-    {
-        damage += damageIncrease;
-    }
-
-    public void IncreaseRange()
-    {
-        range += rangeIncrease;
-    }
-
-    public void DecreaseFireInterval()
-    {
-        fireInterval = Mathf.Max(minFireInterval, fireInterval * fireIntervalMultiplier);
     }
 
     private BulletBehaviour CreateNewBullet()
@@ -116,5 +96,25 @@ public class ShiftExcuse : WeaponBase
     private void OnDrawGizmos() // Just to see the radius 
     {
         Gizmos.DrawWireSphere(transform.position, range);
+    }
+
+    protected override void ApplyLevel(int newLevel)
+    {
+        switch(newLevel)
+        {
+            case 2:
+                Debug.Log("TODO: +1 projectile");
+                break;
+            case 3:
+                damage += 5;
+                break;
+            case 4:
+                Debug.Log("TODO: +1 projectile");
+                break;
+            case 5:
+                damage += 5;
+                fireInterval *= 0.8f;
+                break;
+        }
     }
 }

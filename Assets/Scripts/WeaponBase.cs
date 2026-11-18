@@ -10,6 +10,9 @@ public abstract class WeaponBase : MonoBehaviour
     [SerializeField] protected float minFireInterval = 0.4f;
     [SerializeField] protected float damage = 5f;
 
+    protected int currentLevel = 1;
+    protected int maxLevel = 5;
+
     protected virtual void Awake()
     {
         playerStats = GetComponentInParent<PlayerStats>();
@@ -37,9 +40,17 @@ public abstract class WeaponBase : MonoBehaviour
     }
 
     protected abstract bool TryAttack();
-    
-    
 
+    protected abstract void ApplyLevel(int level);
+    public void LevelUp()
+    {
+        if (currentLevel < maxLevel)
+        {
+            currentLevel += 1;
+            Debug.Log("Level: " + currentLevel);
+            ApplyLevel(currentLevel);
+        }
+    }
 
 
 
