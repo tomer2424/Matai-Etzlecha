@@ -1966,12 +1966,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23693c3c67cc4b44192bc50534f91c07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon_1
+  weaponData: {fileID: 11400000, guid: 69e4d61dfea86554d8bcdedfb47b9579, type: 2}
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 128
   fireInterval: 1
   minFireInterval: 0.4
   damage: 5
+  projectileCount: 1
   shiftExcusePrefab: {fileID: -932466249220152239, guid: 26975a491b30a4041b8439c3303df817, type: 3}
   shiftExcuseFolder: {fileID: 1791583583}
   range: 6

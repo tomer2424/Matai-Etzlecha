@@ -3,16 +3,17 @@ using UnityEngine;
 public abstract class WeaponBase : MonoBehaviour
 {
     protected PlayerStats playerStats;
+    [SerializeField] protected WeaponData weaponData;
 
     [SerializeField] protected LayerMask whatIsEnemy;
 
     protected float timerToNextFire = 1f;
-    [SerializeField] protected float fireInterval = 1f;
-    [SerializeField] protected float minFireInterval = 0.4f;
+    protected float fireInterval;
+    protected float minFireInterval;
 
-    [SerializeField] protected float damage = 5f;
+    protected float damage;
 
-    [SerializeField] protected int projectileCount = 1;
+    protected int projectileCount;
 
     protected int currentLevel = 1;
     protected int maxLevel = 5;
@@ -20,6 +21,10 @@ public abstract class WeaponBase : MonoBehaviour
     protected virtual void Awake()
     {
         playerStats = GetComponentInParent<PlayerStats>();
+        fireInterval = weaponData.fireInterval;
+        minFireInterval = weaponData.minFireInterval;
+        damage = weaponData.damage;
+        projectileCount = weaponData.projectileCount;
     }
 
 
