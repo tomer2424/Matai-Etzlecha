@@ -1063,7 +1063,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 807985686}
-          m_TargetAssemblyTypeName: ShiftExcuse, Assembly-CSharp
+          m_TargetAssemblyTypeName: MeatballsWeapon, Assembly-CSharp
           m_MethodName: LevelUp
           m_Mode: 1
           m_Arguments:
@@ -1933,7 +1933,7 @@ GameObject:
   - component: {fileID: 807985685}
   - component: {fileID: 807985686}
   m_Layer: 6
-  m_Name: ShiftExcuse
+  m_Name: MeatballWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1948,7 +1948,7 @@ Transform:
   m_GameObject: {fileID: 807985684}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1970,12 +1970,8 @@ MonoBehaviour:
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 128
-  fireInterval: 1
-  minFireInterval: 0.4
-  damage: 5
-  projectileCount: 1
-  shiftExcusePrefab: {fileID: -932466249220152239, guid: 26975a491b30a4041b8439c3303df817, type: 3}
-  shiftExcuseFolder: {fileID: 1791583583}
+  meatballWeaponPrefab: {fileID: -932466249220152239, guid: 26975a491b30a4041b8439c3303df817, type: 3}
+  meatballWeaponFolder: {fileID: 1791583583}
   range: 6
 --- !u!1 &895411030
 GameObject:
@@ -3203,7 +3199,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1791583583}
   m_Layer: 0
-  m_Name: ShiftExcusesFolder
+  m_Name: MeatballWeaponFolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3659,10 +3655,10 @@ SceneRoots:
   - {fileID: 263864200}
   - {fileID: 563070279}
   - {fileID: 423467873}
-  - {fileID: 1834276348}
   - {fileID: 2061712451}
   - {fileID: 1791583583}
   - {fileID: 1874641480}
   - {fileID: 159326661}
   - {fileID: 1359312608}
+  - {fileID: 1834276348}
   - {fileID: 1132044560}
