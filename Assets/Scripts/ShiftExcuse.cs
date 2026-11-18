@@ -121,24 +121,4 @@ public class ShiftExcuse : WeaponBase
     {
         Gizmos.DrawWireSphere(transform.position, range);
     }
-
-    protected override void ApplyLevel(int newLevel)
-    {
-        switch(newLevel)
-        {
-            case 2:
-                projectileCount++;
-                break;
-            case 3:
-                damage += 5;
-                break;
-            case 4:
-                projectileCount++;
-                break;
-            case 5:
-                damage += 5;
-                fireInterval *= 0.8f;
-                break;
-        }
-    }
 }

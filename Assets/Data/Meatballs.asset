@@ -12,8 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24528d1c842d8b942982fae84eba202d, type: 3}
   m_Name: Meatballs
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
+  weaponLevelUpgradeList:
+  - damageToAdd: 0
+    projectilesToAdd: 1
+    fireIntervalMultiplier: 1
+  - damageToAdd: 5
+    projectilesToAdd: 0
+    fireIntervalMultiplier: 1
+  - damageToAdd: 0
+    projectilesToAdd: 1
+    fireIntervalMultiplier: 1
+  - damageToAdd: 5
+    projectilesToAdd: 0
+    fireIntervalMultiplier: 0.8
   weaponName: Meatballs
-  description: bla bla bla
+  description: Throws meatballs at the closest enemy
   fireInterval: 1
   minFireInterval: 0.4
   damage: 5

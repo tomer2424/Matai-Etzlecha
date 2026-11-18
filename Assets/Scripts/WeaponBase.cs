@@ -16,7 +16,7 @@ public abstract class WeaponBase : MonoBehaviour
     protected int projectileCount;
 
     protected int currentLevel = 1;
-    protected int maxLevel = 5;
+    protected int maxLevel;
 
     protected virtual void Awake()
     {
@@ -25,6 +25,7 @@ public abstract class WeaponBase : MonoBehaviour
         minFireInterval = weaponData.minFireInterval;
         damage = weaponData.damage;
         projectileCount = weaponData.projectileCount;
+        maxLevel = weaponData.weaponLevelUpgradeList.Count + 1;
     }
 
 
@@ -50,7 +51,14 @@ public abstract class WeaponBase : MonoBehaviour
 
     protected abstract bool TryAttack();
 
-    protected abstract void ApplyLevel(int level);
+    protected virtual void ApplyLevel(int level)
+    {
+        WeaponLevelUpgrade levelUpgrade = weaponData.weaponLevelUpgradeList[level - 2];
+        damage += levelUpgrade.damageToAdd;
+        projectileCount += levelUpgrade.projectilesToAdd;
+        fireInterval *= levelUpgrade.fireIntervalMultiplier;
+    }
+
     public void LevelUp()
     {
         if (currentLevel < maxLevel)
@@ -60,8 +68,4 @@ public abstract class WeaponBase : MonoBehaviour
             ApplyLevel(currentLevel);
         }
     }
-
-
-
-
 }
