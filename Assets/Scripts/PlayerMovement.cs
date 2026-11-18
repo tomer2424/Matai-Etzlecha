@@ -6,10 +6,8 @@ public class PlayerMovement : MonoBehaviour
     
     private Rigidbody2D rb;
     private SpriteRenderer sr;
+    private PlayerStats playerStats;
 
-
-    [SerializeField] private float moveSpeed = 4.0f;
-    [SerializeField] private float moveSpeedIncrease = 0.4f;
     private Vector2 movementVector;
     private bool facingRight = false;
 
@@ -17,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
+        playerStats = GetComponent<PlayerStats>();
     }
 
     void Update()
@@ -27,12 +26,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.linearVelocity = movementVector * moveSpeed;
-    }
-
-    public void IncreaseMovementSpeed()
-    {
-        moveSpeed += moveSpeedIncrease;
+        rb.linearVelocity = movementVector * playerStats.GetMoveSpeed();
     }
 
     private void HandleMovement() // Handles the movement vector

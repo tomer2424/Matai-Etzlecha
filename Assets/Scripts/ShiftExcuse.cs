@@ -6,6 +6,7 @@ public class ShiftExcuse : MonoBehaviour
     [Header("Components")]
     [SerializeField] private BulletBehaviour shiftExcusePrefab;
     [SerializeField] private Transform shiftExcuseFolder;
+    private PlayerStats playerStats;
 
     [Header("Shooting parameters")]
     [SerializeField] private LayerMask whatIsEnemy;
@@ -24,6 +25,7 @@ public class ShiftExcuse : MonoBehaviour
 
     private void Awake()
     {
+        playerStats = GetComponentInParent<PlayerStats>();
         shiftExcusePool = new ObjectPool<BulletBehaviour>(CreateNewBullet, OnBulletTaken, OnBulletReturned, DestroyBullet);
     }
 
@@ -83,7 +85,8 @@ public class ShiftExcuse : MonoBehaviour
             Collider2D doda = GetClosestDoda();
             if (doda != null)
             {
-                timerToNextFire = fireInterval;
+                // Weapon interval x player's global multiplier, but never below this weapon's minimum
+                timerToNextFire = Mathf.Max(minFireInterval, fireInterval * playerStats.GetFireIntervalMultiplier());
                 Fire(doda);
             }
         }
@@ -120,7 +123,7 @@ public class ShiftExcuse : MonoBehaviour
     {
         Vector2 direction = dodaTarget.transform.position - transform.position;
         BulletBehaviour shiftExcuseBullet = shiftExcusePool.Get();
-        shiftExcuseBullet.LaunchBullet(direction, transform.position, damage);
+        shiftExcuseBullet.LaunchBullet(direction, transform.position, damage * playerStats.GetDamageMultiplier());
     }
 
 

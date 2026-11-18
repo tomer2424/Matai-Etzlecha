@@ -458,6 +458,7 @@ GameObject:
   - component: {fileID: 263864201}
   - component: {fileID: 263864203}
   - component: {fileID: 263864204}
+  - component: {fileID: 263864206}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -579,8 +580,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14acd5cfa085f654495441a5c40bf2a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  moveSpeed: 4
-  moveSpeedIncrease: 0.4
 --- !u!114 &263864203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -704,6 +703,25 @@ CapsuleCollider2D:
   m_Offset: {x: -0.020076096, y: 0.35324878}
   m_Size: {x: 0.4274876, y: 0.70649755}
   m_Direction: 0
+--- !u!114 &263864206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 263864196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b758d74322963843997f5ce69e0627d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
+  baseMoveSpeed: 4
+  moveSpeedMultiplier: 1
+  damageMultiplier: 1
+  fireIntervalMultiplier: 1
+  moveSpeedIncreasePerLevel: 0.08
+  damageIncreasePerLevel: 0.1
+  fireIntervalDecreasePerLevel: 0.08
 --- !u!1 &299564744
 GameObject:
   m_ObjectHideFlags: 0
@@ -1091,13 +1109,30 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   - title: Quick Escape
-    description: +0.4 move speed
+    description: +8% move speed
     onChosen:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 263864201}
-          m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
-          m_MethodName: IncreaseMovementSpeed
+        - m_Target: {fileID: 263864206}
+          m_TargetAssemblyTypeName: PlayerStats, Assembly-CSharp
+          m_MethodName: IncreaseMoveSpeed
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - title: Increase Base Damage
+    description: +10% damage
+    onChosen:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 263864206}
+          m_TargetAssemblyTypeName: PlayerStats, Assembly-CSharp
+          m_MethodName: IncreaseDamage
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
