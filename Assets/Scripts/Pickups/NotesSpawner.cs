@@ -34,9 +34,10 @@ public class NotesSpawner : MonoBehaviour
         }
     }
 
-    public void SpawnNote(Vector2 spawnPosition)
+    public void SpawnNote(Vector2 spawnPosition, int xpAmount)
     {
         NoteBehaviour note = notesPool.Get();
+        note.SetXPAmount(xpAmount);
         note.transform.position = spawnPosition;
     }
 }

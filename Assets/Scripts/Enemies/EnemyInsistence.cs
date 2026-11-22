@@ -19,6 +19,8 @@ public class EnemyInsistence : MonoBehaviour
     private float hitLineChance;
     private FloatingTextManager floatingTextManager;
 
+    private int xpDropped;
+
     private void Awake()
     {
         enemyMovement = GetComponent<EnemyMovement>();
@@ -26,6 +28,7 @@ public class EnemyInsistence : MonoBehaviour
         hitLines = enemyData.hitLines;
         giveUpLines = enemyData.giveUpLines;
         hitLineChance = enemyData.hitLineChance;
+        xpDropped = enemyData.xpDropped;
     }
 
     public void SetPool(ObjectPool<EnemyMovement> pool)
@@ -66,7 +69,7 @@ public class EnemyInsistence : MonoBehaviour
     private void GiveUp()
     {
         floatingTextManager.ShowRandomText(giveUpLines, transform.position);
-        noteSpawner.SpawnNote(transform.position);
+        noteSpawner.SpawnNote(transform.position, xpDropped);
         isDead = true;
         pool.Release(enemyMovement);
     }

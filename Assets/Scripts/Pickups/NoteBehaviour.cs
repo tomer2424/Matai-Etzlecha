@@ -6,11 +6,16 @@ public class NoteBehaviour : MonoBehaviour
     private ObjectPool<NoteBehaviour> pool;
 
     private bool wasCollected;
-    [SerializeField] private int xp = 1;
+    private int xp;
 
     public void SetPool(ObjectPool<NoteBehaviour> pool)
     {
         this.pool = pool;
+    }
+
+    public void SetXPAmount(int xpAmount)
+    {
+        xp = xpAmount;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
