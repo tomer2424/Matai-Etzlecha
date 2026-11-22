@@ -3390,7 +3390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ff125cb78162c847902cf0350a64235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameTimer
-  gameDuration: 300
+  gameDuration: 900
   OnSecondsLeftChanged:
     m_PersistentCalls:
       m_Calls:
@@ -3579,6 +3579,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2071484750}
   - component: {fileID: 2071484749}
+  - component: {fileID: 2071484751}
   m_Layer: 0
   m_Name: EnemySpawner
   m_TagString: Untagged
@@ -3643,6 +3644,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2071484751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2071484748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9220cdc451d743040b7520665440d83b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaveDirector
+  gameTimer: {fileID: 1834276347}
+  spawnWaveList:
+  - startTimeSeconds: 0
+    spawnInterval: 2
+  - startTimeSeconds: 60
+    spawnInterval: 1.25
+  - startTimeSeconds: 120
+    spawnInterval: 0.83
+  - startTimeSeconds: 240
+    spawnInterval: 0.63
+  - startTimeSeconds: 360
+    spawnInterval: 0.5
+  - startTimeSeconds: 480
+    spawnInterval: 0.4
+  - startTimeSeconds: 600
+    spawnInterval: 0.33
+  - startTimeSeconds: 720
+    spawnInterval: 0.29
+  - startTimeSeconds: 840
+    spawnInterval: 0.5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
