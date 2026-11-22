@@ -5,13 +5,16 @@ public class EnemyMovement : MonoBehaviour
     private Rigidbody2D playerRB;
     private Rigidbody2D rb;
 
+    [SerializeField] private EnemyData enemyData;
+
     private const string playerTag = "Player";
-    [SerializeField] private float moveSpeed = 2.5f;
+    private float moveSpeed;
 
     private void Awake()
-    {
+    { 
         playerRB = GameObject.FindGameObjectWithTag(playerTag).GetComponent<Rigidbody2D>();
         rb = GetComponent<Rigidbody2D>();
+        moveSpeed = enemyData.moveSpeed;
     }
 
     private void FixedUpdate()

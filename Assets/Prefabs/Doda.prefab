@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ab356ba07c25247adc527ed12024e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
-  moveSpeed: 2.5
+  enemyData: {fileID: 11400000, guid: 1ff4af20512a93d469289682acbd1d89, type: 2}
 --- !u!114 &-8845976977013345810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,16 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7481e43c132ab9b4ab8f6655afc1c2db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyInsistence
-  maxInsistence: 10
-  hitLines:
-  - bla bla bla bla
-  - ouch
-  - stop it !
-  giveUpLines:
-  - ok bye
-  - im dead
-  - im going to sleep new
-  hitLineChance: 0.3
+  enemyData: {fileID: 11400000, guid: 1ff4af20512a93d469289682acbd1d89, type: 2}
 --- !u!114 &-6323873083725105428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,4 +198,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5c8215d41e87fb42a2fdaabd8f64542, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDamage
-  damage: 5
+  enemyData: {fileID: 11400000, guid: 1ff4af20512a93d469289682acbd1d89, type: 2}

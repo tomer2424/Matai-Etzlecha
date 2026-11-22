@@ -3,8 +3,10 @@ using UnityEngine.Pool;
 
 public class EnemyInsistence : MonoBehaviour
 {
+    [SerializeField] private EnemyData enemyData;
+
     private float insistence;
-    [SerializeField] private float maxInsistence = 10f;
+    private float maxInsistence;
 
     private bool isDead = false;
 
@@ -12,14 +14,18 @@ public class EnemyInsistence : MonoBehaviour
     private EnemyMovement enemyMovement;
     private NotesSpawner noteSpawner;
 
-    [SerializeField] private string[] hitLines;
-    [SerializeField] private string[] giveUpLines;
-    [SerializeField, Range(0f, 1f)] private float hitLineChance = 0.15f;
+    private string[] hitLines;
+    private string[] giveUpLines;
+    private float hitLineChance;
     private FloatingTextManager floatingTextManager;
 
     private void Awake()
     {
         enemyMovement = GetComponent<EnemyMovement>();
+        maxInsistence = enemyData.maxInsistence;
+        hitLines = enemyData.hitLines;
+        giveUpLines = enemyData.giveUpLines;
+        hitLineChance = enemyData.hitLineChance;
     }
 
     public void SetPool(ObjectPool<EnemyMovement> pool)

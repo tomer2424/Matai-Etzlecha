@@ -24,11 +24,6 @@ public class PlayerMovement : MonoBehaviour
         HandleFlip();
     }
 
-    private void FixedUpdate()
-    {
-        rb.linearVelocity = movementVector * playerStats.GetMoveSpeed();
-    }
-
     private void HandleMovement() // Handles the movement vector
     {
         movementVector.x = GetHorizontalAxis();
@@ -38,6 +33,10 @@ public class PlayerMovement : MonoBehaviour
         {
             movementVector.Normalize();
         }
+    }
+    private void FixedUpdate()
+    {
+        rb.linearVelocity = movementVector * playerStats.GetMoveSpeed();
     }
 
     private float GetHorizontalAxis() // Gets the desired horizontal axis based on key presses
@@ -76,8 +75,8 @@ public class PlayerMovement : MonoBehaviour
         {
             Flip();
         }
-
     }
+
     private void Flip() // Flipping the player's sprite
     {
         facingRight = !facingRight;

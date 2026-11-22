@@ -57,6 +57,7 @@ public class PlayerPatience : MonoBehaviour
             }
         }
     }
+
     private void Die()
     {
         isDead = true;
