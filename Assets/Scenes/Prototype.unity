@@ -622,6 +622,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  xpRequiredPerLevel: 10
 --- !u!114 &263864204
 MonoBehaviour:
   m_ObjectHideFlags: 0

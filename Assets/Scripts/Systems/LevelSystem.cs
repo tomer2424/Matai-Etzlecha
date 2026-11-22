@@ -8,7 +8,7 @@ public class LevelSystem : MonoBehaviour
 
     public UnityEvent<float> OnXPChanged;
     public UnityEvent OnLevelUp;
-
+    [SerializeField, Min(1)] private int xpRequiredPerLevel = 10;
 
     public void AddXP(int xpAmount)
     {
@@ -33,7 +33,7 @@ public class LevelSystem : MonoBehaviour
 
     private int GetXPToLevelUp()
     {
-        return (5 + currentLevel * 4);
+        return (xpRequiredPerLevel * currentLevel);
     }
 
     public void DebugSkipLevel()
