@@ -16,35 +16,35 @@ public class EnemySpawner : MonoBehaviour
 
     private float spawnMargin = 0.5f; // makes the enemy spawn just outside of the camera view
 
-    private ObjectPool<EnemyMovement> dodaPool;
+    private ObjectPool<EnemyMovement> enemyPool;
     [SerializeField] private int maxEnemyAmount = 250;
 
     private void Awake()
     {
-        dodaPool = new ObjectPool<EnemyMovement>(CreateNewDoda, OnDodaTaken, OnDodaReturned, DestroyDoda);
+        enemyPool = new ObjectPool<EnemyMovement>(CreateNewEnemy, OnEnemyTaken, OnEnemyReturned, DestroyEnemy);
     }
-    private EnemyMovement CreateNewDoda()
+    private EnemyMovement CreateNewEnemy()
     {
-        EnemyMovement newDoda = Instantiate(enemyPrefab, enemiesFolder);
-        EnemyInsistence enemyInsistence = newDoda.GetComponent<EnemyInsistence>();
-        enemyInsistence.SetPool(dodaPool);
+        EnemyMovement newEnemy = Instantiate(enemyPrefab, enemiesFolder);
+        EnemyInsistence enemyInsistence = newEnemy.GetComponent<EnemyInsistence>();
+        enemyInsistence.SetPool(enemyPool);
         enemyInsistence.SetNoteSpawner(notesSpawner);
         enemyInsistence.SetFloatingTextManager(floatingTextManager);
-        return newDoda;
+        return newEnemy;
     }
-    private void OnDodaTaken(EnemyMovement doda)
+    private void OnEnemyTaken(EnemyMovement enemy)
     {
-        doda.gameObject.SetActive(true);
+        enemy.gameObject.SetActive(true);
     }
-    private void OnDodaReturned(EnemyMovement doda)
+    private void OnEnemyReturned(EnemyMovement enemy)
     {
-        doda.gameObject.SetActive(false);
+        enemy.gameObject.SetActive(false);
     }
-    private void DestroyDoda(EnemyMovement doda)
+    private void DestroyEnemy(EnemyMovement enemy)
     {
-        if (doda != null)
+        if (enemy != null)
         {
-            Destroy(doda.gameObject);
+            Destroy(enemy.gameObject);
         }
     }
 
@@ -63,7 +63,7 @@ public class EnemySpawner : MonoBehaviour
         timerToNextSpawn -= Time.deltaTime;
         while (timerToNextSpawn <= 0)
         {
-            if (dodaPool.CountActive < maxEnemyAmount)
+            if (enemyPool.CountActive < maxEnemyAmount)
             {
                 SpawnEnemy();
             }
@@ -82,13 +82,13 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnEnemy() 
     {
         Vector3 spawnLocation = GetSpawnLocation();
-        EnemyMovement doda = dodaPool.Get();
+        EnemyMovement enemy = enemyPool.Get();
 
         float insistenceMultiplier = waveDirector.GetInsistenceMultiplier();
-        EnemyInsistence enemyInsistence = doda.GetComponent<EnemyInsistence>();
+        EnemyInsistence enemyInsistence = enemy.GetComponent<EnemyInsistence>();
         enemyInsistence.ApplyInsistenceMultiplier(insistenceMultiplier);
 
-        doda.SetDodaPosition(spawnLocation);
+        enemy.SetEnemyPosition(spawnLocation);
     }
 
 

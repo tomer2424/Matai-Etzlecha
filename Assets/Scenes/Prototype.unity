@@ -1058,13 +1058,13 @@ MonoBehaviour:
   cardsBackground: {fileID: 1093057558}
   playerMovement: {fileID: 263864201}
   upgradeList:
-  - title: Meatballs
-    description: Upgrade meatballs
+  - title: Knife
+    description: Upgrade knife
     onChosen:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 807985686}
-          m_TargetAssemblyTypeName: MeatballsWeapon, Assembly-CSharp
+          m_TargetAssemblyTypeName: KnifeWeapon, Assembly-CSharp
           m_MethodName: LevelUp
           m_Mode: 1
           m_Arguments:
@@ -1934,7 +1934,7 @@ GameObject:
   - component: {fileID: 807985685}
   - component: {fileID: 807985686}
   m_Layer: 6
-  m_Name: MeatballWeapon
+  m_Name: knifeWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1971,8 +1971,8 @@ MonoBehaviour:
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 128
-  meatballWeaponPrefab: {fileID: -932466249220152239, guid: 26975a491b30a4041b8439c3303df817, type: 3}
-  meatballWeaponFolder: {fileID: 1791583583}
+  knifeWeaponPrefab: {fileID: -932466249220152239, guid: 26975a491b30a4041b8439c3303df817, type: 3}
+  knifeWeaponFolder: {fileID: 1791583583}
   range: 6
 --- !u!1 &895411030
 GameObject:
@@ -3200,7 +3200,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1791583583}
   m_Layer: 0
-  m_Name: MeatballWeaponFolder
+  m_Name: KnifeWeaponFolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

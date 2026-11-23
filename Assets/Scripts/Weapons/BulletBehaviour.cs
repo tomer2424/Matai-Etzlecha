@@ -40,7 +40,13 @@ public class BulletBehaviour : MonoBehaviour
     {
         bulletDamage = damage;
         bulletDirection.Normalize();
-        rb.position =  bulletPosition;
+
+        // Turn the bullet to face its flight direction (the sprite is drawn pointing right = 0 degrees)
+        float angle = Mathf.Atan2(bulletDirection.y, bulletDirection.x) * Mathf.Rad2Deg;
+        rb.rotation = angle;
+        transform.rotation = Quaternion.Euler(0f, 0f, angle);
+
+        rb.position = bulletPosition;
         transform.position = bulletPosition;
         rb.linearVelocity = bulletDirection * moveSpeed;
     }

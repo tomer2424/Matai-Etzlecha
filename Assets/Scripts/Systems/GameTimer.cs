@@ -4,7 +4,7 @@ using UnityEngine.Events;
 // Counts the game time down and announces every new second and the end of the game
 public class GameTimer : MonoBehaviour
 {
-    [SerializeField] private float gameDuration = 300f; // 5 minutes
+    [SerializeField] private float gameDuration = 900f; // in seconds (the scene uses 900 = 15 minutes)
 
     private float timeLeft;
     private int lastSecondSent = -1; // -1 so the first second is always sent
@@ -28,7 +28,7 @@ public class GameTimer : MonoBehaviour
 
         timeLeft -= Time.deltaTime;
 
-        // Round up so the clock shows 5:00 at the start and 0:00 only at the very end
+        // Round up so the clock shows the full time (15:00) at the start and 0:00 only at the very end
         int secondsLeft = Mathf.CeilToInt(timeLeft);
 
         // Send only when the shown second changes, not every frame

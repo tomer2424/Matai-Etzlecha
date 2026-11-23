@@ -24,7 +24,7 @@ public class EnemyMovement : MonoBehaviour
         rb.linearVelocity = direction * moveSpeed;
     }
 
-    public void SetDodaPosition(Vector2 spawnPosition)
+    public void SetEnemyPosition(Vector2 spawnPosition)
     {
         rb.position = spawnPosition;
         transform.position = spawnPosition;
