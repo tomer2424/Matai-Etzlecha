@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sr;
     private PlayerStats playerStats;
+    private Animator anim;
 
     private Vector2 movementVector;
     private bool facingRight = false;
@@ -16,12 +17,26 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         playerStats = GetComponent<PlayerStats>();
+        anim = GetComponent<Animator>();
     }
 
     void Update()
     {
         HandleMovement();
+        HandleAnimations();
         HandleFlip();
+    }
+
+    private void HandleAnimations()
+    {
+        if (movementVector != Vector2.zero)
+        {
+            anim.SetBool("isMoving", true);
+        }
+        else
+        {
+            anim.SetBool("isMoving", false);
+        }
     }
 
     private void HandleMovement() // Handles the movement vector

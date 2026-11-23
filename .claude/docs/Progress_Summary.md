@@ -1,159 +1,167 @@
-# מתי אצלך? – סיכום התקדמות
-*עודכן: 17.11.2026 (סוף היום, לפני מעבר מחשב) · מפה ענקית בלי בניין, טבלת איזון, שחקן ודודה בפיקסל ארט בתוך המשחק, Pixel Perfect Camera. הבא: שינויי המבנה בקוד*
+# סיכום התקדמות: שף נגד ג'אנק פוד (לשעבר "מתי אצלך?")
+*עודכן: 23.11.2026 · שינויי המבנה בקוד הושלמו (`PlayerStats`, `WeaponBase`/`WeaponData`, `EnemyData`, `WaveDirector`). **הנושא הוחלף למסעדה:** שף, פיצה ב-3 טעמים, סכין ומטבע בתוך המשחק. הבא: Animator, נשק שני, אויב שני, המפה.*
 
 > **לשיחה חדשה עם Claude:** `.claude/CLAUDE.md` נטען אוטומטית. הוא מפנה לקובץ הזה ול-`.claude/docs/GDD.md`.
 
 ---
 
 ## כללי עבודה עם Claude (חובה!)
-1. **Git נעשה בסוף** (או כשאני מבקש).
+1. **Git: אני עושה commit ו-push בעצמי.** Claude מציע שם ותיאור לקומיט.
 2. **Claude לא משנה ולא כותב שום דבר בתיקיית הפרויקט** אלא אם ביקשתי במפורש.
    - **חריג: גרפיקה.** בגרפיקה Claude עובד כ"מעצב ספרייטים מקצועי" ומכין את הקבצים בעצמו. אני ממקם אותם בסצנה.
 3. **מצב מנטור (לקוד של המשחק):** כשאני מבקש עזרה, רק הכוונה, רמזים ושאלות, לא פתרון ישיר. חריג: כשאני כותב "תגיד לי" / "תגיד לי מה הפתרון" / "תכתוב לי", מקבלים תשובה ישירה.
 4. **"תבדוק אותי" / "תסתכל":** Claude קורא את הקבצים (סקריפטים, סצנה, פריפאבים) ומעיר. זה מותר תמיד.
-5. דברים יכולים להשתנות. אני מעדכן מה עשיתי ומתי עוברים נושא.
+5. **צעדים קטנים.** כשיש הרבה בבת אחת אני מתבלבל. מושג חדש: להסביר מאפס, עם דוגמה פשוטה או משל.
+6. דברים יכולים להשתנות. אני מעדכן מה עשיתי ומתי עוברים נושא.
 - שיחה בעברית, הערות בקוד באנגלית. כשמבקשים הערות, רק על מה שביקשתי.
-- כשאני מבקש "תרשום לנו" משהו לעתיד, לשמור אותו ולהזכיר אותו בזמן המתאים.
+- כשאני מבקש "תרשום לנו" משהו לעתיד, לשמור אותו כאן ולהזכיר אותו בזמן המתאים.
 
 ---
 
 ## הפרויקט
 - **Unity 6000.3.26f1, 2D URP.** פרויקט סיום בקורס, עבודה לבד. **הגשה: בערך אמצע דצמבר 2026.**
-- Survivors-like: רווק בחתונה בורח מדודות, זורק עליהן אוכל, פתקי טלפון נותנים XP.
-- מסמך העיצוב: `.claude/docs/GDD.md` (גרסה 2.2: מפה ענקית בלי בניין).
+- 🆕 Survivors-like: **שף במסעדה ענקית נגד ג'אנק פוד שקם לתחייה.** זורק כלי מטבח, האוכל מוותר ומשאיר מטבעות (XP), שורדים 15 דקות. **שם המשחק עוד לא נבחר.**
+- מסמך העיצוב: `.claude/docs/GDD.md` (גרסה 3.0: נושא המסעדה).
 - טבלת איזון: `.claude/docs/Balance.md` (מספרי התחלה, עוד לא נבדקו במשחק).
-- סצנה: `Assets/Scenes/Prototype.unity`. סקריפטים: `Assets/Scripts/`.
+- סצנה: `Assets/Scenes/Prototype.unity`. סקריפטים: `Assets/Scripts/<תיקייה>/`. נתונים: `Assets/Data/`.
 
 ---
 
-## ✅ אב הטיפוס: מה בנוי (הכל עובד ונבדק)
+## ✅ מה בנוי (הכל עובד ונבדק)
 
-### תנועה ומצלמה
-- **`PlayerMovement`:** WASD דרך Input System (בלי חצים, **בלי Dash**). קלט ב-`Update`, `rb.linearVelocity` ב-`FixedUpdate`. מהירות 4. `IncreaseMovementSpeed()` (+0.4).
-- **מוסכמת כיוון:** כל הספרייטים מצוירים **פונים שמאלה**. `facingRight` מתחיל ב-`false`, ההיפוך רק דרך `sr.flipX`.
-- **`SmoothCameraFollow`:** `SmoothDamp` ב-`LateUpdate`. לשחקן Rigidbody עם Interpolate.
+### 🆕 מבנה התיקיות של הסקריפטים (22.11)
+`Player/`, `Enemies/`, `Weapons/`, `Pickups/`, `Systems/`, `UI/`, `Debug/`. הזזה ושינוי שם **רק בתוך Unity** (שומר את ה-GUID).
 
-### אויבים ו-Spawner
-- **`EnemyMovement`:** הולכת ישר לשחקן (Tag "Player"), מהירות 2.5, בלי מרחק עצירה. `SetDodaPosition(pos)` קובע `rb.position` ו-`transform.position`.
-- **`EnemyInsistence`:** התעקשות 10 (`maxInsistence`), `ReduceInsistence`, `GiveUp()` (פתק, משפט ויתור, `isDead`, `Release`). `OnEnable` מאפס.
-  - משפטים: `hitLines`, `giveUpLines`, `hitLineChance` (Range 0–1, בפריפאב 0.30). משפט פגיעה רק אם הדודה **שרדה** (`else`). משפט ויתור **תמיד**.
-- **`EnemyDamage`:** `damage` (5) + `Damage =>`. אויב בלי הרכיב לא פוגע במגע.
-- **`EnemySpawner`:** `ObjectPool<EnemyMovement>`. `CreateNewDoda` מעביר לדודה את ה-Pool, את `NotesSpawner` ואת `FloatingTextManager`. יצירה על מעגל סביב המצלמה, מחוץ למסך. קצב לפי `AnimationCurve` מ-(0, 2) עד (300, 0.5), עם `globalTimer` עצמאי.
-- **השחקן:** Mass 100. Colliders ב"רגליים". הדודות: Collision Detection **Discrete** (בגלל ביצועים).
+### Player
+- **`PlayerMovement`:** WASD דרך Input System (בלי חצים, בלי Dash). קלט ב-`Update`, `rb.linearVelocity = movementVector * playerStats.GetMoveSpeed()` ב-`FixedUpdate`.
+- **מוסכמת כיוון:** כל הדמויות מצוירות **פונות שמאלה**. `facingRight` מתחיל ב-`false`, ההיפוך רק דרך `sr.flipX`.
+- 🆕 **`PlayerStats`:** ‏`baseMoveSpeed` 4, ומכפילים שמתחילים ב-1: `moveSpeedMultiplier`, ‏`damageMultiplier`, ‏`fireIntervalMultiplier`. כמה כל שדרוג מוסיף: ‏0.08 / ‏0.1 / ‏0.08 (באינספקטור). מתודות: `GetMoveSpeed()`, ‏`GetDamageMultiplier()`, ‏`GetFireIntervalMultiplier()`, ‏`IncreaseMoveSpeed()`, ‏`IncreaseDamage()`, ‏`DecreaseFireInterval()`. **"בסיס × מכפיל":** המכפילים מוחלים ברגע השימוש, לא משנים את הנשק.
+- **`PlayerPatience`:** 100, חסינות 0.5 שנ' אחרי מכה, `isDead`, `ReducePatience(float)`, `OnCollisionStay2D` עם `EnemyDamage`. אירועים: `onPatienceChanged(float)`, `onDeath`. 🆕 `DebugToggleInvincible()`.
+- **השף בסצנה:** `Chef_sheet_0`. CapsuleCollider2D ‏0.43×0.77 (הרגליים והגוף, בלי הראש). Mass 100, Interpolate.
+
+### Enemies
+- 🆕 **`EnemyData`** (ScriptableObject, "כרטיס"): `enemyName`, ‏`maxInsistence`, ‏`moveSpeed`, ‏`damage`, ‏`xpDropped` (int), ‏`hitLineChance` (Range 0–1), ‏`hitLines`, ‏`giveUpLines`. בראש הקובץ: הערה **למה אין `EnemyBase`** (מספרים שונים ← כרטיס, התנהגות שונה ← רכיב נוסף).
+  - **`Pizza.asset`:** 10 / 2.5 / 5 / 1 XP / 0.3, ומשפטים של פיצה.
+- **שלושת הרכיבים קוראים מהכרטיס ב-`Awake`** (לכל אחד הפניה משלו, `[SerializeField] EnemyData`):
+  - **`EnemyMovement`:** הולך ישר לשחקן (Tag "Player"). 🆕 `SetEnemyPosition(pos)` (היה `SetDodaPosition`).
+  - **`EnemyInsistence`:** `ReduceInsistence`, `GiveUp()` (מטבע עם ה-XP מהכרטיס, משפט ויתור, `Release`). `OnEnable` מאפס (`insistence = maxInsistence`). 🆕 `ApplyInsistenceMultiplier(float)`: ‏`insistence = maxInsistence × מכפיל` (לא משנה את `maxInsistence`!).
+  - **`EnemyDamage`:** `Damage =>`.
+- **`EnemySpawner`:** `ObjectPool<EnemyMovement> enemyPool`. ‏`CreateNewEnemy` מעביר לאויב את ה-Pool, את `NotesSpawner` ואת `FloatingTextManager`. יצירה על מעגל סביב המצלמה, מחוץ למסך.
+  - 🆕 המרווח מגיע מ-`WaveDirector.GetSpawnInterval()` (העקומה וה-`globalTimer` נמחקו).
+  - 🆕 **אחרי `Get()`:** מבקש מ-`WaveDirector` את מכפיל ההתעקשות ומעביר אותו לאויב (`OnEnable` כבר רץ ואיפס, אז הסדר נכון).
+  - 🆕 **תקרה:** `maxEnemyAmount` = 250 (`CountActive`). הבדיקה בתוך ה-`while`, והטיימר גדל תמיד, אז אין לולאה אינסופית. יצירה שמגיעה בתקרה **מדלגת**.
+- 🆕 **`WaveDirector`** ("המנצח", על אובייקט בסצנה): `GameTimer` (מקור זמן אחד), `SpawnWave[] spawnWaveList` באינספקטור (9 שורות מ-`Balance.md`: ‏0, 60, 120, 240, 360, 480, 600, 720, 840).
+  - `GetSpawnInterval()`: השורה **האחרונה** שזמן ההתחלה שלה עבר (`<=`, ‏`break` בשורה הראשונה שעוד לא התחילה). רשת ביטחון: אם אין שורה, `LogWarning` ומחזיר 1.
+  - `GetInsistenceMultiplier()`: ‏`1 + insistenceIncreasePerMinute (0.1) × Mathf.FloorToInt(דקות)`. **דקות שלמות** כדי שבדקה הראשונה יהיו בדיוק 2 סכינים לפיצה.
+- 🆕 **`SpawnWave`** (`[System.Serializable]`): `startTimeSeconds`, ‏`spawnInterval`. אין זמן סיום: שורה נגמרת כשהבאה מתחילה.
+- 🆕 **`RandomLook`:** `Sprite[] sprites`, בוחר ספרייט אקראי ב-`OnEnable` (3 טעמי פיצה).
+- **`Pizza.prefab`** (היה `Doda.prefab`, אותו GUID): `Pizza_pepperoni_sheet_0`, CapsuleCollider2D, Offset y ‏0.55, Size ‏0.7×0.5 (על הקרום). Collision Detection **Discrete**.
 - **Layers:** Player (6), Enemy (7), Pickup (8, מתנגש רק עם Player).
 
-### הנשק הראשון ("יש לי משמרת", יוחלף בקציצות)
-- **`ShiftExcuse`** (child של השחקן): ירייה כל `fireInterval` לדודה הקרובה (`OverlapCircleAll` + LayerMask). "ירייה טעונה": אם אין יעד, הטיימר מחכה. `ObjectPool<BulletBehaviour>`. הנזק כאן ונשלח ב-`LaunchBullet(dir, pos, damage)`.
-  - שדרוגים: `IncreaseDamage` (+2), `IncreaseRange` (+1), `DecreaseFireInterval` (×0.85, מינימום 0.4).
-- **`BulletBehaviour`:** Kinematic + Trigger, `hasHit`, חוזר ל-Pool בפגיעה או אחרי `maxAliveTime`.
+### Weapons
+- 🆕 **`WeaponBase`** (abstract, על ה-child של השחקן):
+  - `playerStats = GetComponentInParent<PlayerStats>()`. מעתיק מ-`WeaponData` ב-`Awake`: `fireInterval`, ‏`minFireInterval`, ‏`damage`, ‏`projectileCount`. ‏`maxLevel = weaponLevelUpgradeList.Count + 1`.
+  - `Update` ← `HandleFiring()`: הטיימר יורד, וכשהוא ב-0 ו-`TryAttack()` מחזיר `true`, מתאפס ל-`Mathf.Max(minFireInterval, fireInterval × GetFireIntervalMultiplier())`. אם אין יעד, ההתקפה נשארת "טעונה".
+  - `protected abstract bool TryAttack()`: הבסיס מחליט **מתי**, הילד מחליט **איך**.
+  - `LevelUp()` (ציבורי, לקלף): `currentLevel` מתחיל ב-1, עד `maxLevel`, וקורא ל-`ApplyLevel(level)` (`virtual`): שורה `level - 2` בטבלה מוסיפה נזק וקליעים ומכפילה את הטעינה.
+  - ⚠️ **ילד לא כותב `Update`/`Awake` פרטי משלו** (זה מסתיר את של הבסיס). ‏`protected override void Awake() { base.Awake(); ... }`.
+- 🆕 **`WeaponData`** (ScriptableObject): `weaponName`, ‏`description`, ‏`fireInterval`, ‏`minFireInterval`, ‏`damage`, ‏`projectileCount`, ‏`List<WeaponLevelUpgrade>`. **`WeaponLevelUpgrade`** (`[System.Serializable]`): `damageToAdd`, ‏`projectilesToAdd`, ‏`fireIntervalMultiplier`.
+  - **`Knife.asset`** (היה `Meatballs.asset`): 1 / 0.4 / 5 / 1. שורות: (0,1,1), (5,0,1), (0,1,1), (5,0,0.8).
+- 🆕 **`KnifeWeapon`** (היה `ShiftExcuse` ← `MeatballsWeapon`, אותו GUID): `GetClosestEnemies()` מחזיר עד `projectileCount` אויבים **שונים**, מהקרוב (לולאה לכל סכין, `!targetList.Contains`, ‏`break` כשאין עוד). ‏`TryAttack` זורק לפי `i % targetList.Count`. טווח 6. הנזק: `damage × GetDamageMultiplier()`. Pool של סכינים בתוך `KnifeWeaponFolder` (בשורש הסצנה, לא בתוך השחקן!).
+- **`BulletBehaviour`:** Kinematic + Trigger, `hasHit`, חוזר ל-Pool בפגיעה או אחרי `maxAliveTime`. 🆕 `LaunchBullet` **מסובב את הקליע לכיוון התעופה**: `Mathf.Atan2(y, x) * Mathf.Rad2Deg` ל-`rb.rotation` ול-`transform.rotation`.
+- **`KnifeProjectile.prefab`** (היה `MeatballProjectile`): ספרייט `Knife`, CircleCollider2D רדיוס 0.22, IsTrigger.
 
-### פתקים, XP וקלפים
-- **`NotesSpawner` + `NoteBehaviour`:** Pool של פתקים. איסוף ב-`OnTriggerEnter2D` עם `TryGetComponent(out LevelSystem)`, `wasCollected`, xp = 1.
-- **`LevelSystem`** (על השחקן): `AddXP` עם `while` (מחסירים ואז `LevelUp`), `GetXPToLevelUp()` = `5 + level*4`. אירועים: `OnXPChanged(float)` (יחס 0–1), `OnLevelUp`.
-- **`CardSelectScreen`** (על ה-Canvas) + **`UpgradeOption`** (`[System.Serializable]`: שם, תיאור, `UnityEvent`, `Apply()`):
-  - `pendingChoices` (private int) לכמה עליות ברמה בבת אחת.
-  - `HandleCards()` = `RollCards()` (עותק רדוד של הרשימה, הגרלה בלי חזרות) + `ShowCardsText()` (מערך `TextMeshProUGUI`).
-  - `OnCardButtonPress(int)`: מיישם את השדרוג שהוגרל, ואז סוגר או מגריל שוב.
-  - בעצירה: `timeScale = 0` ו-`PlayerMovement.enabled = false`.
+### Pickups
+- **`NotesSpawner` + `NoteBehaviour`** (השמות נשארו מהפתקים): Pool. 🆕 `SpawnNote(position, xpAmount)` ← `note.SetXPAmount(xp)` מיד אחרי `Get()`. איסוף ב-`OnTriggerEnter2D` עם `TryGetComponent(out LevelSystem)`, ‏`wasCollected` מתאפס ב-`OnEnable`.
+- 🆕 **`Coin.prefab`** (היה `Note.prefab`, אותו GUID): ספרייט `Coin`, צבע לבן, Scale 1, CircleCollider2D רדיוס 0.22, IsTrigger.
 
-### סבלנות, שעון, סיום
-- **`PlayerPatience`:** 100, חסינות 0.5 שנ' אחרי מכה (`immunityLeftTimer`), `isDead`, `ReducePatience(float)` ציבורית, `OnCollisionStay2D` עם `EnemyDamage`. אירועים: `onPatienceChanged(float)`, `onDeath`.
-- **`ProgressBar`:** מד כללי (`FillBar(float)`), משמש למד ה-XP ולמד הסבלנות.
-- **`GameTimer`:** שעון יורד, `gameDuration` (300 כרגע, יהיה 900), שולח `OnSecondsLeftChanged(int)` רק כשהשנייה משתנה, `OnTimeUp` פעם אחת. **`TimerText`:** פורמט m:ss.
-- **`EndScreen`:** `ShowEndScreen(string message)` עם הגנה מסיום כפול. `onDeath` → "You Died !", `OnTimeUp` → "You Win !". `OnTryAgainPress` מחזיר `timeScale` ל-1 וטוען את הסצנה מחדש.
+### Systems
+- **`GameTimer`:** שעון יורד, `gameDuration` (**900 בסצנה**, ‏300 כברירת מחדל בקוד), `OnSecondsLeftChanged(int)` רק כשהשנייה משתנה, `OnTimeUp` פעם אחת. 🆕 `GetTimePassed()`, ‏`DebugSkipTime(float)`.
+- **`LevelSystem`:** `AddXP` עם `while`. 🆕 `GetXPToLevelUp()` = `xpRequiredPerLevel (10) × currentLevel`. אירועים: `OnXPChanged(float)`, `OnLevelUp`. 🆕 `DebugSkipLevel()`.
+- **`SmoothCameraFollow`:** `SmoothDamp` ב-`LateUpdate`.
+- **Pixel Perfect Camera:** PPU 16, ‏Reference 480×270, ‏Crop Frame None, ‏Grid Snapping None. Game view ‏1920×1080.
 
-### טקסט צף
-- **`FloatingTextManager`** (על אובייקט משלו): Pool, `textSpawnOffset` 0.8, `ShowText(text, pos)` ו-`ShowRandomText(string[] lines, pos)` (עם הגנה מרשימה ריקה).
-- **`FloatingText`** (פריפאב עם TextMeshPro **של העולם**, Order in Layer 10): עולה ונעלם (`alpha = timeLeft / maxTimeAlive`), `SetFloatingText`, חוזר ל-Pool.
-- **הטקסטים באנגלית** כרגע (אין פונט עברי + RTL).
+### UI
+- **`CardSelectScreen` + `UpgradeOption`** (`[System.Serializable]`: שם, תיאור, `UnityEvent`): `pendingChoices`, הגרלה בלי חזרות, `OnCardButtonPress(int)`. בעצירה: `timeScale = 0` ו-`PlayerMovement.enabled = false`.
+  - 🆕 **הקלפים היום:** "Knife / Upgrade knife" ← `KnifeWeapon.LevelUp`, ‏"Quick Escape / +8% move speed" ← `PlayerStats.IncreaseMoveSpeed`, ‏"Increase Base Damage / +10% damage" ← `PlayerStats.IncreaseDamage`.
+- **`ProgressBar`** (מדי XP וסבלנות, עם `Bar background.png`), **`TimerText`** (m:ss), **`EndScreen`** (`ShowEndScreen(string)`, "You Died !" / "You Win !", טעינה מחדש).
+- **`FloatingTextManager` + `FloatingText`:** Pool, `ShowRandomText(string[], pos)`. הטקסטים באנגלית.
 
-### מיון לפי Y (הוגדר בסוף, עם הספרייטים החדשים)
-- `Renderer2D.asset`: Transparency Sort Mode = Custom Axis (0, 1, 0).
-- Sprite Sort Point = **Pivot** בשחקן, בדודה, בשולחן ובכיסאות. Pivot ברגליים.
-- **השולחן:** Pivot מותאם (0.5, 0.44), מרכז הבסיס של המפה. CapsuleCollider2D אופקי. 8 כיסאות כילדים (בלי Colliders).
+### Debug
+- 🆕 **`DebugKeys`** (רק בעורך, `#if UNITY_EDITOR` **בתוך** `Update`): F1 = ‏`DebugSkipTime(60)`, F2 = ‏`DebugSkipLevel()`, F3 = ‏`DebugToggleInvincible()`.
 
-### 🆕 17.11: פיקסל ארט ומצלמה בתוך המשחק (עובד ונבדק)
-- **השחקן** בסצנה משתמש ב-`Assets/Sprites/Player_sheet.png`, ו**הדודה** (`Doda.prefab`) ב-`Assets/Sprites/Aunt_yellow_sheet.png`.
-  - ייבוא: Sprite Mode Multiple, ‏**PPU 16**, ‏Filter **Point**, ‏Compression **None**. חיתוך Grid **16×24**, ‏Pivot **Bottom** ‏(0.5, 0).
-  - כרגע רק הפריים הראשון (עמידה). **אין עדיין Animator.**
-- **Colliders עודכנו** לגודל החדש (1×1.5 יחידות): שחקן CapsuleCollider2D ‏0.43×0.71 (חצי תחתון), דודה 0.45×0.5 (שליש תחתון).
-- **Pixel Perfect Camera** על ה-Main Camera: Assets PPU = **16**, ‏Reference Resolution = **480×270**, ‏Crop Frame = None, ‏Grid Snapping = None. ה-Orthographic Size מחושב לבד (8.4375). בקובץ הסצנה עדיין כתוב 5.6, וזה תקין (נדרס בזמן ריצה). Game view על **1920×1080**.
+### מיון לפי Y
+- `Renderer2D.asset`: Transparency Sort Mode = Custom Axis (0, 1, 0). Sprite Sort Point = **Pivot**, Pivot ברגליים.
 
 ---
 
-## 🆕 הכיוון החדש (16.11.2026)
-**אחרי אב הטיפוס:** המפה הרגישה קטנה, ולשרוד זמן מסוים לא הרגיש מספיק כיף. הוחלט:
-- **ניצחון אחרי 15 דקות** (אפשר לשנות).
-- ~~מפה ענקית (160×120 אריחים) עם אזורים~~ ← **הוחלף ב-17.11 במפה ענקית בלי בניין, עם איים** (ראה למטה). **בלי מטרות במפה.**
-- **אויבים חדשים וקשים יותר** מגיעים לאורך הזמן (הרשימה מה-GDD, התזמון ייקבע).
-- **עמדות בופה קטנות שמופיעות במפה** ומרפאות.
-- **זורקים אוכל ודברים של חתונה** במקום "תירוצים".
-- **פיקסל ארט במבט 3/4**, ספרייטים נפרדים לחפצים.
-- **דוגמת הסגנון:** `.claude/docs/style_sample.png`. פירוט ב-`.claude/docs/GDD.md` סעיפים 5 ו-7.
+## 🆕 הנושא החדש: מסעדה (22–23.11.2026)
+**הוחלט 23.11:** במקום חתונה, **שף במסעדה ענקית נגד ג'אנק פוד שקם לתחייה**. כלי מטבח במקום אוכל, מטבעות (טיפים) במקום פתקי טלפון. **הקוד והמכניקות לא השתנו**, רק המראה, השמות והמשפטים (בזכות `EnemyData` ו-`WeaponData`).
+- **סופי:** שף (שחקן), פיצה (האויב הבסיסי, במקום הדודה), סכין (הנשק הראשון, במקום הקציצות), מטבע (XP).
+- **הצעות** (ב-GDD סעיף 4, עם השם הקודם מהחתונה): המבורגר, פחית, צ'יפס, דונאט, קרטון פיצה, בוס "מגה קומבו". מחבת, סיר, מלחייה, מערוך, סכין קצבים. בר סלטים (במקום בופה), ארגזי ירקות (במקום מתנות).
+- **המפה לא השתנתה ברעיון:** אולם ענק ופתוח (בערך 200×200), **בלי קירות פנימיים**, איים קבועים (מטבח פתוח, ברי סלטים, בר...) ופיזור אקראי פעם אחת.
+- **שינוי שמות:** שמות של **תוכן** הוחלפו (`Pizza`, ‏`Knife`, ‏`Coin`). שמות של **מערכות** נשארו (`EnemyInsistence`, ‏`PlayerPatience`, ‏`NoteBehaviour`).
 
-## 🆕 המפה: ענקית, סופית, בלי בניין (17.11.2026)
-**"החתונה הכי גדולה בעולם":** שדה ענק של **בערך 200×200 יחידות** עם גדר מסביב. (`map_plan.png` נשאר לעיון בלבד.)
-- **איך הגענו לזה (באותו יום):** המפה הסגורה עם בניין (160×120) בוטלה כי הבניין והקירות היו הסיכון הכי גדול. אחר כך הוחלט על עולם אינסופי עם "מיחזור" חפצים. ובסוף, **שילוב:** מפה סופית ענקית בלי בניין, עם התוכן של העולם האינסופי.
-- **למה השילוב:** העולם עקבי (השחקן לומד את המפה), הקוד פשוט יותר מהמיחזור, ובהצגה אפשר להראות מקומות מוכרים.
-- **שכבות:** רצפת דשא ← קישוטים (פרחים, קונפטי, מפיות) ← מכשולים דלילים (שולחנות, עציצים) ← **איים** (רחבה + DJ, חופה, 3–4 איי בופה, פינת צילום, בר, חניה) ← **מתנות** שנשברות ומפילות פריט (עוגה, מגנט, זיקוקים, מעטפת כסף).
-- **קבוע מול אקראי:** את האיים ממקמים **ביד** (הכניסה באמצע, החופה רחוקה). קישוטים, מכשולים ומתנות **מתפזרים אקראית פעם אחת** בתחילת המשחק, עם בדיקת חפיפה. שום דבר לא זז אחר כך.
-- **מה צריך:** `MapBounds` (גבולות במקום אחד), Spawner שלא יוצר מחוץ לגבולות, מתנות שמופיעות מחדש, בופה שמתמלא, ואויבים רחוקים שחוזרים ל-Pool. המצלמה כדאי שתיעצר בקצוות.
-- **לבדוק:** ביצועים עם בערך 1,500 קישוטים ו-400 מכשולים (Profiler). אם כבד, קישוטים ב-Tilemap.
+### היסטוריה קצרה של הכיוון
+- **16.11:** אחרי אב הטיפוס: 15 דקות, מפה גדולה עם אזורים, אויבים חדשים לאורך הזמן, עמדות ריפוי, זריקת חפצים, פיקסל ארט 3/4.
+- **17.11:** מפה סגורה עם בניין ← עולם אינסופי ← **מפה סופית ענקית בלי בניין, עם איים** (סופי).
+- **23.11:** חתונה ← **מסעדה**.
 
 ---
 
 ## 🎨 גרפיקה: מה קיים
 
-### פיקסל ארט (הסגנון הנוכחי)
-- ✅ **שחקן ודודה, 16×24, פונים שמאלה** (17.11). סקריפט: `.claude/art/PixelArt/make_characters.py`. פלט: `.claude/art/PixelArt/characters/`.
-  - בכל גיליון 4 פריימים (64×24): **עמידה, הליכה 1, הליכה 2**, ואז **נפגע** (שחקן) / **מוותרת** (דודה, יד על המצח).
-  - **דודה ב-4 צבעים:** `Aunt_pink/blue/purple/yellow_sheet.png`. **רק הצהובה הועברה ל-`Assets`.** את השאר מעבירים כשמגיעים ל-`EnemyData`.
-  - **הליכה בקליפ:** הליכה 1 ← עמידה ← הליכה 2 ← עמידה, בבערך 8 FPS.
-  - **השחקן רק מהצד.** ב-GDD כתוב 4 כיוונים. עם `flipX` אפשר להסתדר בלי, ולהחליט בהמשך.
-- ✅ **תצוגת אי הבופה** (17.11, רק כדי לראות את הסגנון, לא ספרייטים חתוכים): במה מעץ, 3 עמדות עם סוככים בצבעים (חם אדום, סלטים ירוק, קינוחים ורוד דהוי = **ריקה**), אזור ריפוי ירוק עם "+". סקריפט: `.claude/art/PixelArt/make_buffet.py`. פלט: `buffet_native.png`, `buffet_x4.png`. **המשתמש אישר את הסגנון.**
-- **דוגמת הסגנון:** `.claude/art/PixelArt/make_style_sample.py` (קבלת פנים וחניה, דמויות 12×20 הישנות).
-- `make_map_plan.py`: תוכנית המפה הסגורה, כבר לא בשימוש.
+### 🆕 נושא המסעדה (בשימוש)
+- **סקריפט:** `.claude/art/PixelArt/make_restaurant.py`. פלט: `.claude/art/PixelArt/restaurant/`.
+- **בתוך המשחק** (`Assets/Sprites/Restaurant/`):
+  - `Chef_sheet.png` ו-`Pizza_pepperoni/margherita/veggie_sheet.png`: 4 פריימים של 16×24 (עמידה, הליכה 1, הליכה 2, נפגע / מוותרת). Multiple, PPU 16, Point, None, Grid 16×24, Pivot Bottom.
+  - `Knife.png` (15×6, **פונה ימינה**) ו-`Coin.png` (7×7): Single, PPU 16, Point, None, Pivot Center.
+  - **הפיצה: הקצה למעלה, הקרום הרחב למטה** (שונה לבקשתי, בשביל הקוליידר).
+- **דוגמת סגנון (אושרה):** `restaurant_sample_x4.png` (מסך אחד: פרקט, משבצות במטבח, אי מטבח, בר סלטים עם "+" ירוקים, שולחנות עם מפה משובצת, עציצים) ו-`restaurant_characters_x8.png`.
+- **הליכה בקליפ (ל-Animator):** הליכה 1 ← עמידה ← הליכה 2 ← עמידה, בבערך 8 FPS.
 
-### ישן (וקטורי, יוחלף)
-- `Assets/Sprites/`: `player.png`, `Doda.png`, `RoundTable.png`, `Chair_Front/Back/Side.png` (PPU 256). **עכשיו, עם PPU 16 במצלמה, השולחן והכיסאות נראים קטנים ליד הדמויות.** זה צפוי, הם יוחלפו.
-- `Assets/Sprites/Venue/`: רקע של גן אירועים בחלקים + עצים ושיחים (מקור ב-`.claude/art/Venue/`). **לא בשימוש.**
-- `.claude/art/VectorSprites/`: הסקריפטים של הספרייטים הווקטוריים, ו-`Background.png`.
-- **בסצנה:** `Assets/Sprites/style_sample_native.png` (מיובא עם **PPU 100**, לא 16) ו-`Bar background.png`.
-- `Assets/Sprites/image-1793124638476.png`: דמות פיקסל (256×256), לא בשימוש.
+### ישן (חתונה, לא בשימוש)
+- `.claude/art/PixelArt/make_characters.py` (בחור בחליפה + 4 דודות), `make_meatball.py`, `make_buffet.py`, `make_style_sample.py`, `make_map_plan.py`. נשארים לעיון.
+- `.claude/art/VectorSprites/` ו-`.claude/art/Venue/`: סגנון וקטורי ישן.
+- **נמחקו מ-`Assets` (23.11):** `Player_sheet`, ‏`Aunt_yellow_sheet`, ‏`Meatball_7`, ותמונה ישנה בלי שם.
+- **עוד בשימוש:** `RoundTable.png` (ב-`Table.prefab`, שולחנות מאב הטיפוס בסצנה) ו-`Bar background.png` (מדי ה-UI).
 
 - הסקריפטים בפייתון צריכים `pip install pillow`. מריצים: `python make_xxx.py <תיקיית פלט>`.
 
 ---
 
 ## 📝 דברים שביקשתי לזכור לעתיד
-- **מסך Pause:** לרכז את העצירה במקום אחד (`Pause()`/`Resume()` + אירועים), במקום שכל מסך יכבה את `PlayerMovement` בעצמו. היום גם `CardSelectScreen` וגם `EndScreen` עושים את זה (כי `Update` ממשיך לקרוא קלט ב-`timeScale = 0`).
-- **`ShiftExcuse`:** כשאין דודה בטווח, `OverlapCircleAll` רצה בכל פריים ויוצרת מערך חדש. נמדד ב-Profiler: 32 B לפריים, 0.4% מהפריים. נשאר למעבר ביצועים בסוף. עם כמה נשקים זה יחשוב יותר: לעבור ל-`OverlapCircle` עם `ContactFilter2D` ו-`List<Collider2D>`, או לחפש בתדירות נמוכה יותר.
-- **ליטוש פתקים (לא נעשה):** מגנט (נמשכים לשחקן) ונעלמים אחרי 30 שניות.
-- **ה-Spawner:** `globalTimer` משלו. בהפקה ה-`WaveDirector` צריך לקרוא את הזמן מ-`GameTimer`, כדי שיהיה מקור אחד לזמן.
-- **הקושי אחרי סוף העקומה:** העקומה נגמרת ב-300 שניות. ל-15 דקות צריך שהקושי ימשיך לעלות.
-- **עברית:** פונט עברי ל-TextMeshPro + RTL (למשל RTLTMPro).
-- ✅ **גודל הדמויות הוחלט (17.11): 16×24** (1×1.5 יחידות). בן הדוד קטן יותר, סבתא נמוכה ורחבה, אמא גדולה יותר (בערך 20×30). החפצים יצוירו בפרופורציה לזה. פירוט ב-GDD סעיף 7.
-- 🆕 **נשקים, דוגמאות מ-Vampire Survivors:** כמעט לכל הנשקים נזק בסיס 10. טעינה ארוכה = נזק גבוה. כל רמה משפרת דבר אחד (קליע, נזק, אזור, טעינה), ו"עוד קליע" רק כל כמה רמות. פסיביים: ‎+10% לרמה, 5 רמות. ההמלצה: 3 נשקים שונים מאוד (קציצות לקרוב, מגש עוגה מסתובב, כוס שנשברת או יין שנשפך לאזור).
-- ✅ **טבלת איזון:** `.claude/docs/Balance.md`. השינויים בקוד שהיא דורשת (אני עושה, במצב מנטור):
-  - נוסחת ה-XP ב-`LevelSystem`: ‏`10 × level` במקום `5 + level × 4` (הישנה מביאה לרמה 31 בדקה 15).
-  - ה-XP של הפתק צריך להגיע מהאויב (`EnemyData`), לא `xp = 1` קבוע בפריפאב.
-  - התעקשות האויבים מוכפלת ב-`1 + 0.1 × דקה`.
-  - פסיבי חדש מומלץ: 🍖 "מנה שנייה" (+10% נזק).
-- 🆕 **אחרי ה-Pixel Perfect Camera, לבדוק:** גודל הטקסט הצף ביחס לדמויות (Font Size בפריפאב `Floating Text`). אם הספרייטים רועדים כשהמצלמה זזה: Grid Snapping = Pixel Snapping. טווח הנשק (5) נראה עכשיו קטן יותר על המסך (בטבלה: 6).
-- 🆕 **קלפים של נשק ברמה מקסימלית (18.11):** כשנשק מגיע לרמה 5, הקלף שלו עדיין מופיע, והלחיצה לא עושה כלום (`LevelUp()` ב-`WeaponBase` פשוט לא מעלה). לטפל במערכת הקלפים המלאה (שבוע 2): להוציא מההגרלה פריטים שהגיעו למקסימום.
-- 🆕 **Git:** מומלץ commit בסוף כל יום. `.claude/` נמצא ב-Git (לא ב-ignore), אז כל המסמכים והגרפיקה עוברים איתו.
+- **מסך Pause:** לרכז את העצירה במקום אחד (`Pause()`/`Resume()` + אירועים), במקום שכל מסך יכבה את `PlayerMovement` בעצמו. היום גם `CardSelectScreen` וגם `EndScreen` עושים את זה.
+- **`OverlapCircleAll` ב-`KnifeWeapon`:** כשאין אויב בטווח, רצה בכל פריים ויוצרת מערך חדש (32 B לפריים, 0.4%). למעבר ביצועים בסוף: `OverlapCircle` עם `ContactFilter2D` ו-`List<Collider2D>`, או חיפוש בתדירות נמוכה יותר. (גם `GetComponent<EnemyInsistence>` בכל יצירה ב-Spawner.)
+- **ליטוש מטבעות (לא נעשה):** מגנט (נמשכים לשחקן) ונעלמים אחרי 30 שניות. ספרייטים למטבע כסוף וזהב.
+- **עברית או אנגלית:** להחליט. עברית = פונט עברי ל-TextMeshPro + RTL (למשל RTLTMPro).
+- **גודל הדמויות: 16×24** (1×1.5 יחידות). צ'יפס קטן יותר, המבורגר נמוך ורחב, הבוס גדול יותר (בערך 20×30).
+- **נשקים, דוגמאות מ-Vampire Survivors:** טעינה ארוכה = נזק גבוה. כל רמה משפרת דבר אחד, ו"עוד קליע" רק כל כמה רמות. 3 נשקים שונים מאוד: סכין (לקרוב), מחבת (מסתובבת), סיר (אזור).
+- **פסיבי "ידיים מהירות"** (−8% טעינה): הקוד קיים (`PlayerStats.DecreaseFireInterval`), עוד אין לו קלף.
+- **קלפים של נשק ברמה מקסימלית (18.11):** בסכין ברמה 5 הקלף עדיין מופיע, והלחיצה לא עושה כלום. במערכת הקלפים המלאה: להוציא מההגרלה פריטים שהגיעו למקסימום.
+- **סכין אחת מעל אחרת:** כשיש יעד אחד וכמה סכינים, הן עפות אחת על השנייה. ליטוש: עיכוב קטן או זווית.
+- 🆕 **`RandomLook` + Animator:** ה-Animator יקבע את הספרייט בכל פריים וידרוס את הבחירה. כשמוסיפים Animator: לבחור באקראי **בקר אנימציה** (`AnimatorOverrideController`) במקום ספרייט.
+- 🆕 **`RandomLook` עם רשימה ריקה:** `Random.Range(0, 0)` מחזיר 0, ואז `sprites[0]` זורק שגיאה. כדאי בדיקה (ולא `sprite = null`, שהופך את האויב לשקוף).
+- 🆕 **`KnifeProjectile`:** ב-`Rigidbody2D` מסומן Freeze Rotation Z. אם הסכין "קופצת" חזרה לשכיבה, להוריד את הסימון (הקליע Kinematic, אז זה בטוח).
+- 🆕 **`GameTimer`:** ברירת המחדל בקוד היא 300, ובסצנה 900. אפשר לעדכן את הקוד ל-900.
+- 🆕 **`WaveDirector`:** אסור 0 או מספר שלילי במרווח (אין רצפה בקוד).
+- **אחרי ה-Pixel Perfect Camera, לבדוק:** גודל הטקסט הצף ביחס לדמויות (Font Size בפריפאב `Floating Text`). אם הספרייטים רועדים כשהמצלמה זזה: Grid Snapping = Pixel Snapping.
+- 🆕 **פתוח:** שם המשחק, האם צריך אישור מהמרצה על החלפת הנושא, והסיפור.
+- **Git:** commit בסוף כל שלב, push בסוף היום. `.claude/` נמצא ב-Git. (במחשב הזה Git לפעמים מתלונן על "dubious ownership"; ה-push לפעמים "נתקע" בסוף למרות שהצליח: `git fetch` ואז `git status`.)
+
+---
+
+## 🗓️ יומן קומיטים (18–23.11)
+מקשי דיבאג ← `PlayerStats` ← `WeaponBase` ← רמות ← כמה קליעים ← `WeaponData` ← טבלת רמות ← קציצות ← סידור תיקיות ← `EnemyData` ← XP מהכרטיס ← נוסחת XP ← `WaveDirector` ← Spawner מ-`WaveDirector` ← התחזקות לפי דקה ← תקרת 250 ← שף ופיצה ← סכין ומטבע ← טעמי פיצה.
 
 ---
 
 ## ⬜ מה הלאה
-**ההמלצה של Claude לסדר (17.11):**
-1. **מקשי דיבאג** (אני, בערך שעה): F1 קפיצה של דקה, F2 עלייה ברמה, F3 חסינות. רק בעורך (`#if UNITY_EDITOR`).
-2. **שינויי המבנה** (אני, במצב מנטור), בסדר הזה:
-   - `PlayerStats` (הכי פשוט, חימום) ←
-   - `WeaponData` + `WeaponBase`, ולהפוך את `ShiftExcuse` ל"קציצות" (הכי חשוב) ←
-   - `EnemyData` (להוציא את נתוני הדודה ל-ScriptableObject) ←
-   - `WaveDirector` (אחרון: מחליף את העקומה, קורא זמן מ-`GameTimer`, לפי `Balance.md`).
-   - על הדרך: נוסחת ה-XP ל-`10 × level`.
-3. **גרפיקה** (Claude, במקביל): ✅ שחקן ודודה. **הבא:** אריחי דשא עם וריאציות, קישוטים, שולחן עגול עם כיסאות (בפרופורציה ל-16×24). אחר כך: Animator לשחקן ולדודה.
-4. **המפה** (שבוע 2): רצפה, גבולות, איים קבועים, פיזור אקראי, מתנות, בופה. 2–3 ימים.
-5. לפי תוכנית ההפקה (GDD סעיף 13).
+**ההמלצה של Claude לסדר (23.11):**
+1. **Animator** לשף ולפיצה (חובה בקורס): כבר יש 4 פריימים. כולל המעבר של `RandomLook` לבקרי אנימציה.
+2. **נשק שני: מחבת מסתובבת.** הבדיקה האמיתית של `WeaponBase` עם התנהגות שונה. אחר כך סיר.
+3. **אויב שני: המבורגר.** כאן בונים סוגים ואחוזים ב-`WaveDirector`, ו-Pool לכל סוג.
+4. **מערכת קלפים מלאה** (נשק חדש / שדרוג / פסיבי, בלי פריטים ברמה מקסימלית).
+5. **המפה** (שבוע 2–3): רצפה, גבולות, איים קבועים, פיזור אקראי, ארגזים, בר סלטים.
+6. **גרפיקה** (Claude, במקביל): המבורגר, מחבת, רצפה וחפצים למפה.
+7. לפי תוכנית ההפקה (GDD סעיף 13).

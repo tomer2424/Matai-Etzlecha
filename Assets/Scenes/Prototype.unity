@@ -459,6 +459,7 @@ GameObject:
   - component: {fileID: 263864203}
   - component: {fileID: 263864204}
   - component: {fileID: 263864206}
+  - component: {fileID: 263864207}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -723,6 +724,28 @@ MonoBehaviour:
   moveSpeedIncreasePerLevel: 0.08
   damageIncreasePerLevel: 0.1
   fireIntervalDecreasePerLevel: 0.08
+--- !u!95 &263864207
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 263864196}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3b59b87c85eac9d46803c611077a844a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &299564744
 GameObject:
   m_ObjectHideFlags: 0
