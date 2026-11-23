@@ -3605,30 +3605,7 @@ MonoBehaviour:
   notesSpawner: {fileID: 1874641479}
   floatingTextManager: {fileID: 159326660}
   gameTimer: {fileID: 1834276347}
-  spawnAnimationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 2
-      inSlope: -0.005
-      outSlope: -0.005
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 300
-      value: 0.5
-      inSlope: -0.005
-      outSlope: -0.005
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  waveDirector: {fileID: 2071484751}
 --- !u!4 &2071484750
 Transform:
   m_ObjectHideFlags: 0

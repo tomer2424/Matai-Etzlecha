@@ -32,7 +32,7 @@ public class WaveDirector : MonoBehaviour
         // Safety net: empty list, or the first row doesn't start at 0
         if (tempSpawnWave == null)
         {
-            Debug.LogWarning("Something");
+            Debug.LogWarning("WaveDirector: no spawn row found for time " + currentTime + ". Check that spawnWaveList is not empty and the first row starts at 0.");
             return 1f;
         }
         return tempSpawnWave.spawnInterval;
