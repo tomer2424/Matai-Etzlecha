@@ -17,6 +17,7 @@ public class EnemySpawner : MonoBehaviour
     private float spawnMargin = 0.5f; // makes the enemy spawn just outside of the camera view
 
     private ObjectPool<EnemyMovement> dodaPool;
+    [SerializeField] private int maxEnemyAmount = 250;
 
     private void Awake()
     {
@@ -62,7 +63,10 @@ public class EnemySpawner : MonoBehaviour
         timerToNextSpawn -= Time.deltaTime;
         while (timerToNextSpawn <= 0)
         {
-            SpawnEnemy();
+            if (dodaPool.CountActive < maxEnemyAmount)
+            {
+                SpawnEnemy();
+            }
             timerToNextSpawn += spawnInterval; // keep the leftover time instead of discarding it
         }
     }
