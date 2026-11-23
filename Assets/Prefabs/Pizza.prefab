@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7256272260187141826}
   - component: {fileID: -8845976977013345810}
   - component: {fileID: -6323873083725105428}
+  - component: {fileID: 8930350377690285700}
   m_Layer: 7
   m_Name: Pizza
   m_TagString: Untagged
@@ -199,3 +200,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDamage
   enemyData: {fileID: 11400000, guid: 1ff4af20512a93d469289682acbd1d89, type: 2}
+--- !u!114 &8930350377690285700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1293711830554654682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23e478eaefcf5da4bbf6a9c6e209ab33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RandomLook
+  sprites:
+  - {fileID: 8100071429807062358, guid: a42d3799badef4d4587dc3c997d6cafc, type: 3}
+  - {fileID: 7133616932000188121, guid: 5fc7a0a172ae6024aaf396336021adbd, type: 3}
+  - {fileID: -5085637121914547591, guid: 566c520ba0ddf8a44a2d5ea401c3b320, type: 3}
