@@ -46,6 +46,11 @@ public class EnemyInsistence : MonoBehaviour
         this.noteSpawner = noteSpawner;
     }
 
+    public void ApplyInsistenceMultiplier(float multiplier)
+    {
+        insistence = maxInsistence * multiplier;
+    }
+
     // called from an outside bullet gameobject to reduce the insistence
     public void ReduceInsistence(float insistenceToRemove)
     {

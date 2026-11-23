@@ -79,6 +79,11 @@ public class EnemySpawner : MonoBehaviour
     {
         Vector3 spawnLocation = GetSpawnLocation();
         EnemyMovement doda = dodaPool.Get();
+
+        float insistenceMultiplier = waveDirector.GetInsistenceMultiplier();
+        EnemyInsistence enemyInsistence = doda.GetComponent<EnemyInsistence>();
+        enemyInsistence.ApplyInsistenceMultiplier(insistenceMultiplier);
+
         doda.SetDodaPosition(spawnLocation);
     }
 

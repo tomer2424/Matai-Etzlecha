@@ -4,6 +4,8 @@ using UnityEngine;
 // EnemySpawner only does the spawning itself (pool + position).
 public class WaveDirector : MonoBehaviour
 {
+    [SerializeField] private float insistenceIncreasePerMinute = 0.1f;
+
     [SerializeField] private GameTimer gameTimer; // the single source of game time
 
     // Rows must be sorted by startTimeSeconds, and the first row should start at 0
@@ -36,5 +38,12 @@ public class WaveDirector : MonoBehaviour
             return 1f;
         }
         return tempSpawnWave.spawnInterval;
+    }
+
+
+    public float GetInsistenceMultiplier()
+    {
+        float minute = Mathf.FloorToInt(gameTimer.GetTimePassed() / 60);
+        return (1 + insistenceIncreasePerMinute * minute);
     }
 }

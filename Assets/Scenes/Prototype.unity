@@ -3604,7 +3604,6 @@ MonoBehaviour:
   enemiesFolder: {fileID: 2061712451}
   notesSpawner: {fileID: 1874641479}
   floatingTextManager: {fileID: 159326660}
-  gameTimer: {fileID: 1834276347}
   waveDirector: {fileID: 2071484751}
 --- !u!4 &2071484750
 Transform:
@@ -3633,6 +3632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9220cdc451d743040b7520665440d83b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaveDirector
+  InsistenceIncreaseMultiplierPerLevel: 0.1
   gameTimer: {fileID: 1834276347}
   spawnWaveList:
   - startTimeSeconds: 0
