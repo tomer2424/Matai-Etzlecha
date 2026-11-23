@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 792e9534fc1ab0143a471e35802b3e2d, type: 3}
-  m_Name: Doda
+  m_Name: Pizza
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  enemyName: Doda
+  enemyName: Pizza
   maxInsistence: 10
   moveSpeed: 2.5
   damage: 5
   xpDropped: 1
   hitLineChance: 0.3
   hitLines:
-  - hit line 1
-  - hit line 2
-  - hit line 3
+  - 30 minutes or less!
+  - I'm still hot!
+  - You can't slice me!
   giveUpLines:
-  - give up line 1
-  - give up line 2
-  - give up line 3
+  - Back to the box...
+  - Tell my crust I loved it
+  - I'm getting cold...
