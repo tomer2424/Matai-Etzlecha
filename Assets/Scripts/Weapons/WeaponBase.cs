@@ -73,4 +73,14 @@ public abstract class WeaponBase : MonoBehaviour
         speed += levelUpgrade.speedToAdd;
         areaOfEffect += levelUpgrade.areaToAdd;
     }
+
+    public bool IsOwned()
+    {
+        return gameObject.activeSelf;
+    }
+
+    public bool IsMaxLevel()
+    {
+        return currentLevel >= maxLevel;
+    }
 }
