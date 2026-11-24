@@ -7,8 +7,6 @@ public class PanWeapon : WeaponBase
     [SerializeField] private GameObject panPrefab;
     private List<Transform> panList;                    // every pan this weapon created, so TryAttack knows where they are
 
-    [SerializeField] private float radius = 1.8f;      // distance of the pans from the chef
-    [SerializeField] private float spinSpeed = 180f;   // degrees per second
     [SerializeField] private float panHitRadius = 0.4f; // size of one pan's hit area (not the orbit radius)
 
     protected override void Awake()
@@ -28,7 +26,7 @@ public class PanWeapon : WeaponBase
     // Spins the whole weapon around its own center, so its child pans orbit the chef
     private void RotatePans()
     {
-        transform.Rotate(0f, 0f, spinSpeed * Time.deltaTime);
+        transform.Rotate(0f, 0f, speed * Time.deltaTime);
     }
 
     // Called by WeaponBase every fireInterval (0.5s): hits every enemy touching any pan.
@@ -57,6 +55,8 @@ public class PanWeapon : WeaponBase
     // Each pan is also turned by its angle, so its handle always points at the chef.
     private void CreatePans()
     {
+        ClearOldPans();
+
         float spacingBetweenPans = 360f / projectileCount; // degrees between two neighbouring pans (float, so 7 pans still divide evenly)
 
         for (int i = 0; i < projectileCount; i++)
@@ -65,11 +65,25 @@ public class PanWeapon : WeaponBase
 
             GameObject pan = Instantiate(panPrefab, gameObject.transform);
             panList.Add(pan.transform);
-            pan.transform.localPosition = Quaternion.Euler(0, 0, angle) * new Vector3(radius, 0f, 0f); // turn the "clock hand" to the angle
+            pan.transform.localPosition = Quaternion.Euler(0, 0, angle) * new Vector3(areaOfEffect, 0f, 0f); // turn the "clock hand" to the angle
             pan.transform.localRotation = Quaternion.Euler(0, 0, angle); // turn the pan too, handle toward the chef
         }
     }
-        
+
+    private void ClearOldPans()
+    {
+        foreach (Transform pan in panList)
+        {
+            Destroy(pan.gameObject);
+        }
+        panList.Clear();
+    }
+
+    protected override void ApplyLevel(int level)
+    {
+        base.ApplyLevel(level);
+        CreatePans();
+    }
 
     // Shows each pan's hit area in the Scene view (only while playing, when the pans exist)
     private void OnDrawGizmos()

@@ -12,10 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24528d1c842d8b942982fae84eba202d, type: 3}
   m_Name: Pan
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
-  weaponLevelUpgradeList: []
+  weaponLevelUpgradeList:
+  - damageToAdd: 0
+    projectilesToAdd: 1
+    fireIntervalMultiplier: 1
+    areaToAdd: 0
+    speedToAdd: 0
+  - damageToAdd: 4
+    projectilesToAdd: 0
+    fireIntervalMultiplier: 1
+    areaToAdd: 0.4
+    speedToAdd: 0
+  - damageToAdd: 0
+    projectilesToAdd: 1
+    fireIntervalMultiplier: 1
+    areaToAdd: 0
+    speedToAdd: 0
+  - damageToAdd: 4
+    projectilesToAdd: 0
+    fireIntervalMultiplier: 1
+    areaToAdd: 0
+    speedToAdd: 60
   weaponName: Pan
   description: Spins around you and hits everything it touches
   fireInterval: 0.5
   minFireInterval: 0.25
   damage: 8
   projectileCount: 1
+  speed: 180
+  areaOfEffect: 1.8

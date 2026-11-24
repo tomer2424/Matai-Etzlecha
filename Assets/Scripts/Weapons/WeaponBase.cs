@@ -12,8 +12,10 @@ public abstract class WeaponBase : MonoBehaviour
     protected float minFireInterval;
 
     protected float damage;
-
     protected int projectileCount;
+
+    protected float speed;
+    protected float areaOfEffect;
 
     protected int currentLevel = 1;
     protected int maxLevel;
@@ -25,9 +27,10 @@ public abstract class WeaponBase : MonoBehaviour
         minFireInterval = weaponData.minFireInterval;
         damage = weaponData.damage;
         projectileCount = weaponData.projectileCount;
+        speed = weaponData.speed;
+        areaOfEffect = weaponData.areaOfEffect;
         maxLevel = weaponData.weaponLevelUpgradeList.Count + 1;
     }
-
 
     protected virtual void Update()
     {
@@ -51,14 +54,6 @@ public abstract class WeaponBase : MonoBehaviour
 
     protected abstract bool TryAttack();
 
-    protected virtual void ApplyLevel(int level)
-    {
-        WeaponLevelUpgrade levelUpgrade = weaponData.weaponLevelUpgradeList[level - 2];
-        damage += levelUpgrade.damageToAdd;
-        projectileCount += levelUpgrade.projectilesToAdd;
-        fireInterval *= levelUpgrade.fireIntervalMultiplier;
-    }
-
     public void LevelUp()
     {
         if (currentLevel < maxLevel)
@@ -67,5 +62,15 @@ public abstract class WeaponBase : MonoBehaviour
             Debug.Log("Level: " + currentLevel);
             ApplyLevel(currentLevel);
         }
+    }
+    protected virtual void ApplyLevel(int level)
+    {
+        WeaponLevelUpgrade levelUpgrade = weaponData.weaponLevelUpgradeList[level - 2];
+        damage += levelUpgrade.damageToAdd;
+        projectileCount += levelUpgrade.projectilesToAdd;
+        fireInterval *= levelUpgrade.fireIntervalMultiplier;
+
+        speed += levelUpgrade.speedToAdd;
+        areaOfEffect += levelUpgrade.areaToAdd;
     }
 }

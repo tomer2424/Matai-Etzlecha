@@ -1099,6 +1099,23 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - title: Pan
+    description: Upgrade pan
+    onChosen:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 831779746}
+          m_TargetAssemblyTypeName: PanWeapon, Assembly-CSharp
+          m_MethodName: LevelUp
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   - title: Quick Escape
     description: +8% move speed
     onChosen:
@@ -2047,9 +2064,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   panPrefab: {fileID: 7080258978704214536, guid: 91aa600ad40b7114bb8d8ba2428a4bb0, type: 3}
-  panWeaponFolder: {fileID: 831779745}
-  radius: 1.8
-  spinSpeed: 180
+  panHitRadius: 0.4
 --- !u!1 &895411030
 GameObject:
   m_ObjectHideFlags: 0

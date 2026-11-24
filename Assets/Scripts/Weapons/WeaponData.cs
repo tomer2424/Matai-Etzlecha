@@ -13,6 +13,8 @@ public class WeaponData : ScriptableObject
     public float minFireInterval;
 
     public float damage;
-
     public int projectileCount;
+
+    public float speed;
+    public float areaOfEffect;
 }
