@@ -7,12 +7,13 @@ public class CardSelectScreen : MonoBehaviour
     [SerializeField] private GameObject cardsBackground;
     [SerializeField] private PlayerMovement playerMovement;
     private int pendingChoices = 0; // level ups that still wait for a card choice
+    private int cardsToRoll;
 
     [SerializeField] private List<UpgradeOption> upgradeList;
     private UpgradeOption[] upgradesRolled = new UpgradeOption[3];
 
     [SerializeField] private TextMeshProUGUI[] cardsText;
-    
+    [SerializeField] private GameObject[] cards;
 
     private void HandleCards()
     {
@@ -21,8 +22,18 @@ public class CardSelectScreen : MonoBehaviour
     }
     private void RollCards()
     {
-        List<UpgradeOption> tempUpgradeList = new List<UpgradeOption>(upgradeList); 
-        for (int i = 0; i < upgradesRolled.Length; i++)
+        List<UpgradeOption> tempUpgradeList = new List<UpgradeOption>();
+        foreach (UpgradeOption upgrade in upgradeList)
+        {
+            if (upgrade.IsAvailable())
+            {
+                tempUpgradeList.Add(upgrade);
+            }
+        }
+
+        cardsToRoll = Mathf.Min(upgradesRolled.Length, tempUpgradeList.Count);
+
+        for (int i = 0; i < cardsToRoll; i++)
         {
             int indexToPick = Random.Range(0, tempUpgradeList.Count);
             UpgradeOption tempUpgradeOption = tempUpgradeList[indexToPick];
@@ -35,7 +46,16 @@ public class CardSelectScreen : MonoBehaviour
     {
         for (int i = 0; i < upgradesRolled.Length; i++)
         {
-            cardsText[i].text = upgradesRolled[i].Title + "\n" + upgradesRolled[i].Description;
+            if (i < cardsToRoll)
+            {
+                cards[i].SetActive(true);
+                cardsText[i].text = upgradesRolled[i].Title + "\n" + upgradesRolled[i].Description;
+            }
+            else
+            {
+                cards[i].SetActive(false);
+            }
+            
         }
     }
 

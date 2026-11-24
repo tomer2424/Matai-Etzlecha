@@ -1082,7 +1082,9 @@ MonoBehaviour:
   cardsBackground: {fileID: 1093057558}
   playerMovement: {fileID: 263864201}
   upgradeList:
-  - title: Knife
+  - weapon: {fileID: 807985686}
+    cardType: 1
+    title: Knife
     description: Upgrade knife
     onChosen:
       m_PersistentCalls:
@@ -1099,7 +1101,9 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - title: Pan
+  - weapon: {fileID: 831779746}
+    cardType: 1
+    title: Pan
     description: Upgrade pan
     onChosen:
       m_PersistentCalls:
@@ -1116,7 +1120,9 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - title: Quick Escape
+  - weapon: {fileID: 0}
+    cardType: 2
+    title: Quick Escape
     description: +8% move speed
     onChosen:
       m_PersistentCalls:
@@ -1133,7 +1139,9 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - title: Increase Base Damage
+  - weapon: {fileID: 0}
+    cardType: 2
+    title: Increase Base Damage
     description: +10% damage
     onChosen:
       m_PersistentCalls:
@@ -1154,6 +1162,10 @@ MonoBehaviour:
   - {fileID: 683351463}
   - {fileID: 1803305740}
   - {fileID: 1095097731}
+  cards:
+  - {fileID: 786486686}
+  - {fileID: 1096343724}
+  - {fileID: 567705222}
 --- !u!114 &485761686
 MonoBehaviour:
   m_ObjectHideFlags: 0
