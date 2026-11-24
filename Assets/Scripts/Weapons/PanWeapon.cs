@@ -5,22 +5,18 @@ using UnityEngine;
 public class PanWeapon : WeaponBase
 {
     [SerializeField] private GameObject panPrefab;
-    private List<Transform> panList;
+    private List<Transform> panList;                    // every pan this weapon created, so TryAttack knows where they are
 
     [SerializeField] private float radius = 1.8f;      // distance of the pans from the chef
     [SerializeField] private float spinSpeed = 180f;   // degrees per second
-    [SerializeField] private float panHitRadius = 0.4f;
+    [SerializeField] private float panHitRadius = 0.4f; // size of one pan's hit area (not the orbit radius)
 
     protected override void Awake()
     {
         base.Awake();
 
         panList = new List<Transform>();
-
-        // Create one pan as a child of this weapon, and push it out to the radius
-        GameObject pan = Instantiate(panPrefab, gameObject.transform);
-        panList.Add(pan.transform);
-        pan.transform.localPosition = new Vector3(radius, 0f, 0f);
+        CreatePans();
     }
 
     protected override void Update()
@@ -35,11 +31,14 @@ public class PanWeapon : WeaponBase
         transform.Rotate(0f, 0f, spinSpeed * Time.deltaTime);
     }
 
+    // Called by WeaponBase every fireInterval (0.5s): hits every enemy touching any pan.
+    // Returns false if nothing was hit, so the attack stays "loaded" and the next touch hits right away.
     protected override bool TryAttack()
     {
         bool hitDetected = false;
         foreach (Transform pan in panList)
         {
+            // Enemies inside this pan's hit circle, at the pan's position in the world
             Collider2D[] enemies = Physics2D.OverlapCircleAll(pan.transform.position, panHitRadius, whatIsEnemy);
 
             foreach (Collider2D enemy in enemies)
@@ -54,7 +53,25 @@ public class PanWeapon : WeaponBase
         return hitDetected;
     }
 
+    // Creates projectileCount pans as children of this weapon, evenly spaced around the chef.
+    // Each pan is also turned by its angle, so its handle always points at the chef.
+    private void CreatePans()
+    {
+        float spacingBetweenPans = 360f / projectileCount; // degrees between two neighbouring pans (float, so 7 pans still divide evenly)
 
+        for (int i = 0; i < projectileCount; i++)
+        {
+            float angle = spacingBetweenPans * i; // this pan's place on the circle (0, 120, 240...)
+
+            GameObject pan = Instantiate(panPrefab, gameObject.transform);
+            panList.Add(pan.transform);
+            pan.transform.localPosition = Quaternion.Euler(0, 0, angle) * new Vector3(radius, 0f, 0f); // turn the "clock hand" to the angle
+            pan.transform.localRotation = Quaternion.Euler(0, 0, angle); // turn the pan too, handle toward the chef
+        }
+    }
+        
+
+    // Shows each pan's hit area in the Scene view (only while playing, when the pans exist)
     private void OnDrawGizmos()
     {
         if (panList == null)
