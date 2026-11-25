@@ -568,6 +568,7 @@ Transform:
   m_Children:
   - {fileID: 807985685}
   - {fileID: 831779745}
+  - {fileID: 1567232059}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &263864201
@@ -3255,6 +3256,57 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
+--- !u!1 &1567232058
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1567232059}
+  - component: {fileID: 1567232060}
+  m_Layer: 6
+  m_Name: PotWeapon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1567232059
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567232058}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 263864200}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1567232060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567232058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a402fbde55e1c14cabc7d14130c407c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PotWeapon
+  weaponData: {fileID: 11400000, guid: 392be5730de9f6b409a9bb33795d42d6, type: 2}
+  whatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 128
+  range: 6
+  splashPrefab: {fileID: 2816778243313332142, guid: 64cea560961b20c4990d703b959f2d6b, type: 3}
+  splashShowTime: 0.4
 --- !u!1001 &1770717852
 PrefabInstance:
   m_ObjectHideFlags: 0

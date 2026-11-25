@@ -4,7 +4,8 @@ using UnityEngine;
 public class PotWeapon : WeaponBase
 {
     [SerializeField] private float range = 6f;
-
+    [SerializeField] private GameObject splashPrefab;
+    [SerializeField] private float splashShowTime = 0.4f;
 
     protected override bool TryAttack()
     {
@@ -19,6 +20,10 @@ public class PotWeapon : WeaponBase
         {
             int indexToPick = Random.Range(0, enemiesDetected.Length);
             Collider2D enemy = enemiesDetected[indexToPick];
+
+            GameObject splash = Instantiate(splashPrefab, enemy.transform.position, Quaternion.identity);
+            splash.transform.localScale = new Vector3(areaOfEffect, areaOfEffect, 1);
+            Destroy(splash, splashShowTime);
 
             Collider2D[] enemiesAffected = Physics2D.OverlapCircleAll(enemy.transform.position, areaOfEffect, whatIsEnemy);
             foreach (Collider2D enemyAffected in enemiesAffected)
