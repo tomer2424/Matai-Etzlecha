@@ -723,9 +723,11 @@ MonoBehaviour:
   moveSpeedMultiplier: 1
   damageMultiplier: 1
   fireIntervalMultiplier: 1
+  damageTakenMultiplier: 1
   moveSpeedIncreasePerLevel: 0.08
   damageIncreasePerLevel: 0.1
   fireIntervalDecreasePerLevel: 0.08
+  damageTakenDecreasePerLevel: 0.08
 --- !u!95 &263864207
 Animator:
   serializedVersion: 7
@@ -1226,6 +1228,25 @@ MonoBehaviour:
         - m_Target: {fileID: 263864206}
           m_TargetAssemblyTypeName: PlayerStats, Assembly-CSharp
           m_MethodName: DecreaseFireInterval
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+  - weapon: {fileID: 0}
+    cardType: 2
+    title: Kevlar Apron
+    description: -8% damage taken
+    onChosen:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 263864206}
+          m_TargetAssemblyTypeName: PlayerStats, Assembly-CSharp
+          m_MethodName: DecreaseDamageTaken
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

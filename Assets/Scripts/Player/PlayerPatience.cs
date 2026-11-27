@@ -10,8 +10,15 @@ public class PlayerPatience : MonoBehaviour
     private bool isDead;
     private bool debugIsInvincible = false;
 
+    private PlayerStats playerStats;
+
     public UnityEvent<float> onPatienceChanged;
     public UnityEvent onDeath;
+
+    private void Awake()
+    {
+        playerStats = GetComponent<PlayerStats>();
+    }
 
     private void Update()
     {
@@ -48,7 +55,7 @@ public class PlayerPatience : MonoBehaviour
         if (!debugIsInvincible && !isDead && immunityLeftTimer <= 0)
         {
             StartImmunity();
-            patience -= patienceToRemove;
+            patience -= patienceToRemove * playerStats.GetDamageTakenMultiplier();
             onPatienceChanged.Invoke(patience / maxPatience);
             Debug.Log("Patience left: " + patience);
             if (patience <= 0)
