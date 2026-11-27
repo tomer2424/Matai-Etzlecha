@@ -5,12 +5,14 @@ public class PlayerStats : MonoBehaviour
 {
     [Header("Base values")]
     [SerializeField] private float baseMoveSpeed = 4f;
+    [SerializeField] private float basePickupRange = 1.5f;
 
     [Header("Multipliers (1 = no change)")]
     [SerializeField] private float moveSpeedMultiplier = 1f;
     [SerializeField] private float damageMultiplier = 1f;
     [SerializeField] private float fireIntervalMultiplier = 1f;
     [SerializeField] private float damageTakenMultiplier = 1f;
+    [SerializeField] private float pickupRangeMultiplier = 1f;
 
     [Header("Min values")]
     [SerializeField] private float minDamageTakenMultiplier = 0.4f;
@@ -20,6 +22,7 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float damageIncreasePerLevel = 0.1f;
     [SerializeField] private float fireIntervalDecreasePerLevel = 0.08f;
     [SerializeField] private float damageTakenDecreasePerLevel = 0.08f;
+    [SerializeField] private float pickupRangeIncreasePerLevel = 0.3f;
 
     public float GetMoveSpeed()
     {
@@ -41,6 +44,11 @@ public class PlayerStats : MonoBehaviour
         return Mathf.Max(damageTakenMultiplier, minDamageTakenMultiplier);
     }
 
+    public float GetPickupRange()
+    {
+        return basePickupRange * pickupRangeMultiplier;
+    }
+
     public void IncreaseMoveSpeed()
     {
         moveSpeedMultiplier += moveSpeedIncreasePerLevel;
@@ -59,5 +67,10 @@ public class PlayerStats : MonoBehaviour
     public void DecreaseDamageTaken()
     {
         damageTakenMultiplier -= damageTakenDecreasePerLevel;
+    }
+
+    public void IncreasePickupRange()
+    {
+        pickupRangeMultiplier += pickupRangeIncreasePerLevel;
     }
 }

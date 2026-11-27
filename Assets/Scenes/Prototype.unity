@@ -459,6 +459,7 @@ GameObject:
   - component: {fileID: 263864203}
   - component: {fileID: 263864204}
   - component: {fileID: 263864206}
+  - component: {fileID: 263864208}
   - component: {fileID: 263864207}
   m_Layer: 6
   m_Name: Player
@@ -639,7 +640,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerPatience
   maxPatience: 100
-  patienceToAdd: 15
+  maxPatienceIncreasePerLevel: 15
   immunityTime: 0.5
   onPatienceChanged:
     m_PersistentCalls:
@@ -721,15 +722,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
   baseMoveSpeed: 4
+  basePickupRange: 1.5
   moveSpeedMultiplier: 1
   damageMultiplier: 1
   fireIntervalMultiplier: 1
   damageTakenMultiplier: 1
+  pickupRangeMultiplier: 1
   minDamageTakenMultiplier: 0.4
   moveSpeedIncreasePerLevel: 0.08
   damageIncreasePerLevel: 0.1
   fireIntervalDecreasePerLevel: 0.08
   damageTakenDecreasePerLevel: 0.08
+  pickupRangeIncreasePerLevel: 0.3
 --- !u!95 &263864207
 Animator:
   serializedVersion: 7
@@ -752,6 +756,23 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &263864208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 263864196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78c67d9e678d1454f9ca2880c0eb9ae4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CoinMagnet
+  playerStats: {fileID: 263864206}
+  whatIsCoin:
+    serializedVersion: 2
+    m_Bits: 256
+  pullSpeed: 8
 --- !u!1 &299564744
 GameObject:
   m_ObjectHideFlags: 0
@@ -1222,7 +1243,7 @@ MonoBehaviour:
           m_CallState: 2
   - weapon: {fileID: 0}
     cardType: 2
-    title: Fast Hands
+    title: Fast Food
     description: -8% reload time
     onChosen:
       m_PersistentCalls:
@@ -1268,6 +1289,25 @@ MonoBehaviour:
         - m_Target: {fileID: 263864204}
           m_TargetAssemblyTypeName: PlayerPatience, Assembly-CSharp
           m_MethodName: IncreaseMaxPatience
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+  - weapon: {fileID: 0}
+    cardType: 2
+    title: 5 Second Rule
+    description: +30% pickup range
+    onChosen:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 263864206}
+          m_TargetAssemblyTypeName: PlayerStats, Assembly-CSharp
+          m_MethodName: IncreasePickupRange
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
