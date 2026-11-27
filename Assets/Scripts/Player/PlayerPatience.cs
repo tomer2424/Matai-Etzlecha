@@ -5,6 +5,7 @@ public class PlayerPatience : MonoBehaviour
 {
     private float patience;
     [SerializeField] private float maxPatience = 100f;
+    [SerializeField] private float maxPatienceIncreasePerLevel = 15f;
     [SerializeField] private float immunityTime = 0.5f;
     private float immunityLeftTimer;
     private bool isDead;
@@ -69,6 +70,13 @@ public class PlayerPatience : MonoBehaviour
     {
         isDead = true;
         onDeath.Invoke();
+    }
+
+    public void IncreaseMaxPatience()
+    {
+        maxPatience += maxPatienceIncreasePerLevel;
+        patience += maxPatienceIncreasePerLevel;
+        onPatienceChanged.Invoke(patience / maxPatience);
     }
 
     private void OnEnable()
