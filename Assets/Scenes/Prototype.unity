@@ -256,11 +256,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 71259979}
   m_CullTransparentMesh: 1
---- !u!4 &144437472 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-  m_PrefabInstance: {fileID: 1521099447}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &159326659
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,63 +381,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &252742077
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 563070279}
-    m_Modifications:
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -3.4941204
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -2.758151
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2748456669913470590, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_Name
-      value: Table (2)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
 --- !u!1 &263864196
 GameObject:
   m_ObjectHideFlags: 0
@@ -1199,47 +1137,9 @@ MonoBehaviour:
   cardsBackground: {fileID: 1093057558}
   playerMovement: {fileID: 263864201}
   upgradeList:
-  - weapon: {fileID: 807985686}
-    cardType: 1
-    title: Knife
-    description: Upgrade knife
-    onChosen:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 807985686}
-          m_TargetAssemblyTypeName: KnifeWeapon, Assembly-CSharp
-          m_MethodName: LevelUp
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - weapon: {fileID: 831779746}
-    cardType: 1
-    title: Pan
-    description: Upgrade pan
-    onChosen:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 831779746}
-          m_TargetAssemblyTypeName: PanWeapon, Assembly-CSharp
-          m_MethodName: LevelUp
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
   - weapon: {fileID: 0}
     cardType: 2
-    title: Quick Escape
+    title: Sugar Rush
     description: +8% move speed
     onChosen:
       m_PersistentCalls:
@@ -1258,7 +1158,7 @@ MonoBehaviour:
           m_CallState: 2
   - weapon: {fileID: 0}
     cardType: 2
-    title: Increase Base Damage
+    title: Beat the Meat
     description: +10% damage
     onChosen:
       m_PersistentCalls:
@@ -1274,63 +1174,6 @@ MonoBehaviour:
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
-          m_CallState: 2
-  - weapon: {fileID: 831779746}
-    cardType: 0
-    title: Frying Pan
-    description: Spinning pans hit nearby food
-    onChosen:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 831779744}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-  - weapon: {fileID: 1567232060}
-    cardType: 0
-    title: Soup Pot
-    description: Spills boiling soup on nearby food
-    onChosen:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1567232058}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-  - weapon: {fileID: 1567232060}
-    cardType: 1
-    title: Soup Pot
-    description: Upgrade Soup Pot
-    onChosen:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1567232060}
-          m_TargetAssemblyTypeName: PotWeapon, Assembly-CSharp
-          m_MethodName: LevelUp
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
           m_CallState: 2
   - weapon: {fileID: 0}
     cardType: 2
@@ -1399,6 +1242,101 @@ MonoBehaviour:
         - m_Target: {fileID: 263864206}
           m_TargetAssemblyTypeName: PlayerStats, Assembly-CSharp
           m_MethodName: IncreasePickupRange
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+  - weapon: {fileID: 831779746}
+    cardType: 0
+    title: Frying Pan
+    description: Spinning pans hit nearby food
+    onChosen:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 831779744}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+  - weapon: {fileID: 1567232060}
+    cardType: 0
+    title: Soup Pot
+    description: Spills boiling soup on nearby food
+    onChosen:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1567232058}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+  - weapon: {fileID: 807985686}
+    cardType: 1
+    title: Knife
+    description: Upgrade knife
+    onChosen:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 807985686}
+          m_TargetAssemblyTypeName: KnifeWeapon, Assembly-CSharp
+          m_MethodName: LevelUp
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - weapon: {fileID: 831779746}
+    cardType: 1
+    title: Pan
+    description: Upgrade pan
+    onChosen:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 831779746}
+          m_TargetAssemblyTypeName: PanWeapon, Assembly-CSharp
+          m_MethodName: LevelUp
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - weapon: {fileID: 1567232060}
+    cardType: 1
+    title: Soup Pot
+    description: Upgrade Soup Pot
+    onChosen:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1567232060}
+          m_TargetAssemblyTypeName: PotWeapon, Assembly-CSharp
+          m_MethodName: LevelUp
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1853,41 +1791,6 @@ MonoBehaviour:
   m_CropFrameX: 0
   m_CropFrameY: 0
   m_StretchFill: 0
---- !u!1 &563070278
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 563070279}
-  m_Layer: 0
-  m_Name: Tables
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &563070279
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 563070278}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 144437472}
-  - {fileID: 927244705}
-  - {fileID: 626534909}
-  - {fileID: 1168570204}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &567705222
 GameObject:
   m_ObjectHideFlags: 0
@@ -2105,11 +2008,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &626534909 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-  m_PrefabInstance: {fileID: 252742077}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &683351461
 GameObject:
   m_ObjectHideFlags: 0
@@ -2596,11 +2494,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!4 &927244705 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-  m_PrefabInstance: {fileID: 1770717852}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &966932646
 GameObject:
   m_ObjectHideFlags: 0
@@ -2630,6 +2523,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1487868686}
   - {fileID: 2060335638}
   - {fileID: 274958053}
   - {fileID: 794242681}
@@ -3339,11 +3233,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1148939548}
   m_CullTransparentMesh: 1
---- !u!4 &1168570204 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-  m_PrefabInstance: {fileID: 2025645557}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1212959674
 GameObject:
   m_ObjectHideFlags: 0
@@ -3600,6 +3489,60 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1487868685
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1487868686}
+  - component: {fileID: 1487868687}
+  m_Layer: 0
+  m_Name: MapScatter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1487868686
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487868685}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 966932647}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1487868687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487868685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b41c9cab70361bf46aced7abe48ac408, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MapScatter
+  placables:
+  - {fileID: 4209120192048103154, guid: 09354ff0e2e1c0c4f955ef5b4812c7fe, type: 3}
+  - {fileID: 6508036108553794170, guid: 42c16b5b70582464085f76d7ff42cbbe, type: 3}
+  - {fileID: 7245325695005110633, guid: 98efa2fb852b745439f76ede65d41aa9, type: 3}
+  placablesFolder: {fileID: 1487868686}
+  amountToPlace: 300
+  halfMapSize: 100
+  offsetFromWalls: 3
+  safeZoneRadius: 5
+  prefabZoneRadius: 3
 --- !u!1 &1501706268
 GameObject:
   m_ObjectHideFlags: 0
@@ -3733,63 +3676,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1501706268}
   m_CullTransparentMesh: 1
---- !u!1001 &1521099447
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 563070279}
-    m_Modifications:
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -2.5437102
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.4682386
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2748456669913470590, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_Name
-      value: Table
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
 --- !u!1 &1567232058
 GameObject:
   m_ObjectHideFlags: 0
@@ -3841,63 +3727,6 @@ MonoBehaviour:
   range: 6
   splashPrefab: {fileID: 2816778243313332142, guid: 64cea560961b20c4990d703b959f2d6b, type: 3}
   splashShowTime: 0.4
---- !u!1001 &1770717852
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 563070279}
-    m_Modifications:
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 3.5218165
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.42999542
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2748456669913470590, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_Name
-      value: Table (1)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
 --- !u!1 &1790671983
 GameObject:
   m_ObjectHideFlags: 0
@@ -4267,63 +4096,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &2025645557
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 563070279}
-    m_Modifications:
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 5.6656904
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -4.2201405
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752339216732031274, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2748456669913470590, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
-      propertyPath: m_Name
-      value: Table (3)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e11ed0def058c12499fe54c5a9e4e9d0, type: 3}
 --- !u!1 &2060335637
 GameObject:
   m_ObjectHideFlags: 0
@@ -4542,7 +4314,6 @@ SceneRoots:
   - {fileID: 320138088}
   - {fileID: 2071484750}
   - {fileID: 263864200}
-  - {fileID: 563070279}
   - {fileID: 423467873}
   - {fileID: 2061712451}
   - {fileID: 1791583583}
