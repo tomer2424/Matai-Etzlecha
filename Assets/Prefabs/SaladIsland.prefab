@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 7426703722757871062}
   - component: {fileID: 4001972959670979316}
   m_Layer: 0
-  m_Name: Rug
+  m_Name: SaladRug
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
