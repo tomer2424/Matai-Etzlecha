@@ -79,6 +79,17 @@ public class PlayerPatience : MonoBehaviour
         onPatienceChanged.Invoke(patience / maxPatience);
     }
 
+    public void Heal(float amountToHeal)
+    {
+        patience += Mathf.Min(amountToHeal, maxPatience - patience);
+        onPatienceChanged.Invoke(patience / maxPatience);
+    }
+
+    public bool IsMaxHealth()
+    {
+        return (patience >= maxPatience);
+    }
+
     private void OnEnable()
     {
         isDead = false;
